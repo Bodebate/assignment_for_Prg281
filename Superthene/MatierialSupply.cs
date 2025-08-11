@@ -15,7 +15,7 @@ namespace Superthene
         private double _totalQuantityOrdered;
         private int _SupplyID;
 
-        public MatierialSupply(string Name, double Price, double Quantity,  List<MatierialSupply> supplyList)
+        public MatierialSupply(string Name, double Price, double Quantity,  IList<MatierialSupply> supplyList)
         {
             _name = Name;
             _price = Price;

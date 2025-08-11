@@ -12,15 +12,16 @@ namespace Superthene
     {
         public static Utilities utils = new Utilities();
         public static int userInput = -1;
-        public static List<Blend> blendList = new List<Blend>();
-        public static List<Matierial> matierialsList = new List<Matierial>();
-        public static List<MatierialSupply> matierialSuppliesList = new List<MatierialSupply>();
+        public static IList<Blend> blendList = new List<Blend>();
+        public static IList<Matierial> matierialsList = new List<Matierial>();
+        public static IList<MatierialSupply> matierialSuppliesList = new List<MatierialSupply>();
 
         enum MainMenu
         {
             Create_new_blend____ = 1,
             Log_matierials_order,
             Create_new_matierial,
+            Log_matierials_used_,
             Exit________________
         }
         public static int MainMenuInOptions()
@@ -158,7 +159,7 @@ namespace Superthene
             string userInput = Console.ReadLine().ToUpper().Replace('R', ' ');
             while (!double.TryParse(userInput, out value))
             {
-                Console.WriteLine("please enter the price you paid for the matierials in the format 'R00.00':");
+                Console.WriteLine("please enter the price you paid for the matierials in the format 'R00,00':");
                 userInput = Console.ReadLine().ToUpper().Replace('R', ' ');
             }
 
@@ -166,15 +167,76 @@ namespace Superthene
             userInput = Console.ReadLine();
             while (!double.TryParse(userInput, out quantity))
             {
-                Console.WriteLine("please enter the weight in tonnes of the matierial you purchased: in the format '00.00':");
+                Console.WriteLine("please enter the weight in tonnes of the matierial you purchased: in the format '00,00':");
                 userInput = Console.ReadLine();
             }
 
             MatierialSupply TempObj = new MatierialSupply(name,value,quantity, matierialSuppliesList);
             matierialSuppliesList.Add(TempObj);
+            matierialsList[(utils.MatierialIndex(matierialsList, name))].AddSupply(matierialSuppliesList.Count);
+
 
             Console.WriteLine("supplies successfully added");
             Console.ReadKey();
+        }
+
+        public static void LogMatierialUsage()
+        { int matierialNumber = -1;
+            int count = 1;
+            Console.Clear();
+            foreach (var LI  in matierialsList)
+            {
+                
+                Console.WriteLine( count+":  "+LI.MatierialName+"        "+utils.MatierialSupply(LI.GetSupplyIDs(),matierialSuppliesList)+" tonnes");
+                    
+            }
+
+            Console.WriteLine("Enter the name of the matierial used:");
+            string matierial = Console.ReadLine();
+            while (!utils.MatierialInList(matierialsList, matierial) && (!int.TryParse(matierial,out matierialNumber)||matierialNumber<=0||matierialNumber>count))
+            {
+                Console.WriteLine("Please enter a valid matierial name:");
+                matierial = Console.ReadLine();
+            }
+
+            if (int.TryParse(matierial, out matierialNumber))
+            {
+                matierial = matierialsList[matierialNumber-1].MatierialName;
+            }    
+
+            Console.WriteLine("please enter the weight in tonnes of the matierial you used:");
+            string userInput = Console.ReadLine();
+            double quantity;
+            while (!double.TryParse(userInput, out quantity))
+            {
+                Console.WriteLine("please enter the weight in tonnes of the matierial you used: in the format '00,00':");
+                userInput = Console.ReadLine();
+            }
+            IList<int> Supplies = matierialsList[(utils.MatierialIndex(matierialsList, matierial))].GetSupplyIDs();
+            foreach (int supplyID in Supplies)
+            {
+                if( matierialSuppliesList[supplyID-1].Stock > 0)
+                {
+                    double stock = matierialSuppliesList[supplyID-1].Stock;
+                    if (stock > quantity)
+                    {
+                        matierialSuppliesList[supplyID-1].UseMatierial(quantity);
+                        quantity = 0;
+                        break;
+                    }
+                    else
+                    {
+                        matierialSuppliesList[supplyID - 1].UseMatierial(stock);
+                        quantity -= stock;
+                    } 
+                }
+            }
+            if (quantity == 0)
+                Console.WriteLine("supply levels updated");
+            else
+                Console.WriteLine($"Not enough matierial in stock. please order at least {quantity} tonnes more {matierial}");
+            Console.ReadKey();
+
         }
 
         static void Main(string[] args)
@@ -194,6 +256,9 @@ namespace Superthene
                         CreateNewMatierial();
                         break;
                     case 4:
+                        LogMatierialUsage();
+                        break;
+                    case 5:
                         Environment.Exit(0);
                         break;
                     default:

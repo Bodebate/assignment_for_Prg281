@@ -13,14 +13,14 @@ namespace Superthene
         public int BlendCode { get { return _blendCode; } }
         public string Name { get { return _name; } }
 
-        public Blend(string name, List<Blend> blendList)
+        public Blend(string name, IList<Blend> blendList)
         {
             _name = name;
             _blendCode = blendList.Count();
 
         }
 
-        public virtual void DetermineBlend(List<Matierial> matierialList)
+        public virtual void DetermineBlend(IList<Matierial> matierialList)
         {
             int numberOfMatierials;
             string matierialName;
