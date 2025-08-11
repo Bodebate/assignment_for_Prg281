@@ -9,14 +9,17 @@ namespace Superthene
     internal class Matierial
     {
         private string _matierialName;
-        private List<int> _supplyIDs = new List<int>;
+        private List<int> _supplyIDs = new List<int>();
         private int _matierialID;
-        
+        public string MatierialName { get { return _matierialName; } }
         public Matierial(string Name, List<Matierial> list) 
         {
          _matierialName = Name;
          _matierialID = list.Count;
         }
-
+        public void AddSupply(int SupplyId)
+        {
+            _supplyIDs.Add(SupplyId);
+        }
     }
 }

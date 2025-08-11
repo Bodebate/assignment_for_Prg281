@@ -4,11 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Superthene
 {
     internal class Program
     {
+        public static Utilities utils = new Utilities();
+        public static int userInput = -1;
+        public static List<Blend> blendList = new List<Blend>();
+        public static List<Matierial> matierialsList = new List<Matierial>();
+        public static List<MatierialSupply> matierialSuppliesList = new List<MatierialSupply>();
+
         enum MainMenu
         {
             Create_new_blend____ = 1,
@@ -16,46 +23,183 @@ namespace Superthene
             Create_new_matierial,
             Exit________________
         }
-
-        public static int userInput = -1;
+        public static int MainMenuInOptions()
+        {
+            int output = -1;
+            foreach (var options in Enum.GetValues(typeof(MainMenu))) 
+            {
+                output = (int)options;
+            }
+            return output;
+        }
         public static int LoadMainMenu()
         {
-            int counter = 0;
+            int counter = 1;
+            bool valid = false;
             Console.Clear();
 
             foreach (string Option in Enum.GetNames(typeof(MainMenu)))
             {
-                Console.WriteLine(counter++ + Option.Replace('_',' '));
-                while(!int.TryParse(Console.ReadLine(),out userInput))
+                Console.WriteLine(counter++ +": " + Option.Replace('_', ' '));
+               
+            }
+
+
+            while (!valid)
+            {
+                string userInputString = Console.ReadLine();
+                if (int.TryParse(userInputString, out userInput))
                 {
-                    Console.WriteLine("please input a valid option");
+                    if (userInput > MainMenuInOptions() || userInput < 1)
+                    {
+                        Console.WriteLine("please input a valid option");
+                    }
+                    else
+                    {
+                        valid = true;
+                    }
+                }
+                else
+                {
+                   List<string> list = new List<string>();
+                    foreach (string Option in Enum.GetNames(typeof(MainMenu)))
+                    {
+                        list.Add(Option.Replace('_',' ').TrimEnd().ToLower());
+                    }
+                    if (list.IndexOf(userInputString.TrimEnd().ToLower()) > -1)
+                    {
+                        userInput = list.IndexOf(userInputString.TrimEnd())+1;
+                        valid = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("please input a valid option");
+                    }
+                    
                 }
             }
 
             return userInput;
         }
+
+        public static void CreateNewBlend()
+        {
+            Console.WriteLine("Please enter the name of the blend:");
+            string name = Console.ReadLine();
+            bool exists = false;
+
+            foreach (var obj in blendList)
+            {
+                if (obj.Name == name)
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            Console.WriteLine();
+
+            if (!exists)
+            {
+                Blend tempobj = new Blend(name, blendList);
+                tempobj.DetermineBlend(matierialsList);
+                blendList.Add(tempobj);
+
+                Console.WriteLine($"The blend '{name}' has been added successfully");
+            }
+            else
+            {
+                Console.WriteLine("Blend already exists");
+            }
+            Console.ReadKey();
+        }
+        public static void CreateNewMatierial()
+        {
+            string name;
+            bool exists = false;
+            Console.WriteLine("Please enter the name of the matierial ");
+           name = Console.ReadLine();
+
+            foreach(var Obj in matierialsList)
+            {
+                if (Obj.MatierialName == name)
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            Console.WriteLine();
+            if (!exists)
+            {
+                Matierial tempobj = new Matierial(name, matierialsList);
+                matierialsList.Add(tempobj);
+                Console.WriteLine($"The matierial '{name}' has been added successfully");
+            }
+            else
+            {
+                Console.WriteLine("Matierial already exists");
+            }
+            Console.ReadKey();
+        }
+        public static void AddNewMateirialSupply()
+        {
+            double value;
+            double quantity;
+            Console.WriteLine("Please enter the name of the matierial youve purchased:");
+            string name = Console.ReadLine();
+            while (!utils.MatierialInList(matierialsList,name))
+            { 
+                Console.WriteLine("Please enter a valid name for the matierial youve purchased:");
+                name = Console.ReadLine();
+            }
+
+            Console.WriteLine("please enter the price you paid for the matierials:");
+            string userInput = Console.ReadLine().ToUpper().Replace('R', ' ');
+            while (!double.TryParse(userInput, out value))
+            {
+                Console.WriteLine("please enter the price you paid for the matierials in the format 'R00.00':");
+                userInput = Console.ReadLine().ToUpper().Replace('R', ' ');
+            }
+
+            Console.WriteLine("please enter the weight in tonnes of the matierial you purchased:");
+            userInput = Console.ReadLine();
+            while (!double.TryParse(userInput, out quantity))
+            {
+                Console.WriteLine("please enter the weight in tonnes of the matierial you purchased: in the format '00.00':");
+                userInput = Console.ReadLine();
+            }
+
+            MatierialSupply TempObj = new MatierialSupply(name,value,quantity, matierialSuppliesList);
+            matierialSuppliesList.Add(TempObj);
+
+            Console.WriteLine("supplies successfully added");
+            Console.ReadKey();
+        }
+
         static void Main(string[] args)
         {
+            
             do
             {
                 switch(LoadMainMenu())
                 {
                     case 1:
-
+                        CreateNewBlend();
                         break;
                     case 2:
-
+                        AddNewMateirialSupply();
                         break;
                     case 3:
-
+                        CreateNewMatierial();
                         break;
                     case 4:
-                        
+                        Environment.Exit(0);
                         break;
                     default:
                         break;
                 }
-            } while (userInput != 99);
+            } while (userInput != MainMenuInOptions()+1);
         }
     }
 }
