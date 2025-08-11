@@ -26,11 +26,14 @@ namespace Superthene
         }
         public virtual bool UseMatierial(double UsedQuantity)
         {
-            if (UsedQuantity < 0 || _quantityRemaining > 0)
+            if (UsedQuantity < 0 || _quantityRemaining < UsedQuantity)
+            {
                 return false;
+            }
             else
             {
                 _quantityRemaining -= UsedQuantity;
+
                 return true;
             }
         }

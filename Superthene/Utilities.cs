@@ -13,6 +13,32 @@ namespace Superthene
     }
     internal class Utilities
     {
+        public bool BlendInList(IList<Blend> Blends, string name)
+        {
+            bool found = false;
+            foreach (Blend blend in Blends)
+            {
+                if (blend.Name.ToLower() == name.ToLower())
+                {
+                    found = true;
+                }
+            }
+            return found;
+        }
+        public int BlendIndex(IList<Blend> blends, string name)
+        {
+            int count = 0;
+            int location = -1;
+            foreach (Blend blend in blends)
+            {
+                if (blend.Name.ToLower() == name.ToLower())
+                {
+                    location = count;
+                }
+                count++;
+            }
+            return location;
+        }
         public bool MatierialInList(IList<Matierial> matierial, string name)
         {
             bool found = false;
@@ -57,7 +83,15 @@ namespace Superthene
                 totalSupply += SuppliesList[i - 1].Stock;
                 totalCost += SuppliesList[i - 1].Stock * SuppliesList[i - 1].Price;
             }
-            return (double)totalCost/totalCost;
+            if (totalSupply > 0)
+            {
+                return (double)totalCost / totalSupply;
+            }
+            else 
+            {
+                return 0; 
+            }
+            
         }
 
 
