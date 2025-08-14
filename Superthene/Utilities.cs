@@ -9,7 +9,16 @@ namespace Superthene
 {
     interface utilities
     {
-       bool MatierialInList();
+        bool MatierialInList();
+        int MatierialIndex();
+        double MatierialSupply();
+        double MatierialCostPerTonne();
+
+
+        int BlendIndex();
+        bool BlendInList();
+
+
     }
     internal class Utilities
     {
@@ -18,7 +27,7 @@ namespace Superthene
             bool found = false;
             foreach (Blend blend in Blends)
             {
-                if (blend.Name.ToLower() == name.ToLower())
+                if (blend.Name.ToLower().TrimEnd() == name.ToLower().TrimEnd())
                 {
                     found = true;
                 }

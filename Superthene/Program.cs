@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace Superthene
 {
@@ -13,8 +15,13 @@ namespace Superthene
     {
         public static Utilities utils = new Utilities();
         public static int userInput = -1;
+
+        public static Events AlertsObject = new Events();
+        
         public static IList<Blend> blendList = new List<Blend>();
         public static IList<Product> productList = new List<Product>();
+        public static IList<Machine> machineList = new List<Machine>();
+        public static IList<WeightLog> weightLogs = new List<WeightLog>();
         public static IList<Matierial> matierialsList = new List<Matierial>();
         public static IList<MatierialSupply> matierialSuppliesList = new List<MatierialSupply>();
 
@@ -28,11 +35,10 @@ namespace Superthene
         enum ProductionTrackingMenu
         {
             Create_new_product =1,
-            Create_weight_log,
-            Product_details,
-            exit
+            Create_weight_log_,
+            Product_details___,
+            Exit______________
         }
-
         enum MatierialManagementMenu
         {
             Create_new_blend____ = 1,
@@ -43,6 +49,8 @@ namespace Superthene
             Blends_Details______,
             Exit________________
         }
+
+
         public static int MainMenuInOptions()
         {
             int output = -1;
@@ -63,11 +71,20 @@ namespace Superthene
                 Console.WriteLine(counter++ +": " + Option.Replace('_', ' ').Replace("AND", "&"));
                
             }
+            Console.WriteLine();
 
 
             while (!valid)
             {
                 string userInputString = Console.ReadLine();
+                int PointerTop = Console.CursorTop;
+
+                Console.SetCursorPosition(0, PointerTop-2);   
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, (PointerTop - 1));
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, PointerTop-2);
+
                 if (int.TryParse(userInputString, out userInput))
                 {
                     if (userInput > MainMenuInOptions() || userInput < 1)
@@ -123,11 +140,18 @@ namespace Superthene
                 Console.WriteLine(counter++ + ": " + Option.Replace('_', ' '));
 
             }
-
+            Console.WriteLine();
 
             while (!valid)
             {
                 string userInputString = Console.ReadLine();
+                int PointerTop = Console.CursorTop;
+
+                Console.SetCursorPosition(0, PointerTop - 2);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, (PointerTop - 1));
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, PointerTop - 2);
                 if (int.TryParse(userInputString, out userInput))
                 {
                     if (userInput > ProductionManagementInOptions() || userInput < 1)
@@ -182,11 +206,19 @@ namespace Superthene
                 Console.WriteLine(counter++ + ": " + Option.Replace('_', ' '));
 
             }
-
+            Console.WriteLine();
 
             while (!valid)
-            {
+            {   
                 string userInputString = Console.ReadLine();
+                int PointerTop = Console.CursorTop;
+
+                Console.SetCursorPosition(0, PointerTop - 2);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, (PointerTop - 1));
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, PointerTop - 2);
+
                 if (int.TryParse(userInputString, out userInput))
                 {
                     if (userInput > MatierialmanagementMenuInOptions() || userInput < 1)
@@ -230,15 +262,20 @@ namespace Superthene
             Console.Clear();
             BlendsData();
             Console.WriteLine("============================================");
-            while (blendID == -1)
+            while (blendID < 0 || blendID > blendList.Count)
             {
                 Console.WriteLine("Please enter the name of the blend you are using for this product");
                 userInput = Console.ReadLine();
                 if (!int.TryParse(userInput, out blendID))
                 {
+                    blendID = -1;
+
                     if (utils.BlendInList(blendList, userInput))
                     {
                         blendID = utils.BlendIndex(blendList, userInput);
+
+                        Console.WriteLine("1,5:" + utils.BlendInList(blendList, userInput));
+                        Console.WriteLine("2:" + blendID);
                     }
                 }
             }
@@ -291,6 +328,79 @@ namespace Superthene
             }
 
         }
+        public static void CreateWeightLog()
+        {
+            int PointerTop;
+           Console.Clear();
+           Console.WriteLine("=============================================================================================================================================================");
+
+            foreach (Product obj in productList.Where(p => p.Sold = false).OrderBy(p=>p.ManufactureDate))
+            {
+                Console.WriteLine($"Product ID :{obj.ProductID}  Blend: {blendList[obj.BlendID].Name} date of manufacture: {obj.ManufactureDate} Last recorded weight: {obj.weight}");
+            }
+
+            Console.WriteLine("=============================================================================================================================================================");
+
+            int ProductID;
+            Console.WriteLine("\n Please enter the Product ID number that you are updating");
+            while(!int.TryParse(Console.ReadLine(),out ProductID) || ProductID < 0 || ProductID > productList.Count)
+            {
+                PointerTop = Console.CursorTop;
+
+                Console.SetCursorPosition(0, PointerTop - 2);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, (PointerTop - 1));
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, PointerTop - 2);
+
+                Console.WriteLine("please enter a valid number that represents a product ID");
+            }
+
+            PointerTop = Console.CursorTop;
+
+            Console.SetCursorPosition(0, PointerTop - 2);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, (PointerTop - 1));
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, PointerTop - 2);
+
+            int MachineID;
+            Console.WriteLine("\n Please enter the machine ID number of the machine used");
+            while (!int.TryParse(Console.ReadLine(), out MachineID) || MachineID < 0 || MachineID > machineList.Count)
+            {
+                PointerTop = Console.CursorTop;
+
+                Console.SetCursorPosition(0, PointerTop - 2);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, (PointerTop - 1));
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, PointerTop - 2);
+
+                Console.WriteLine("please enter a valid number that represents a machine ID");
+            }
+
+            double Weight;
+            Console.WriteLine("\n Please enter the Product's weight in tonnes");
+            while (!Double.TryParse(Console.ReadLine(), out Weight) || Weight < 0 )
+            {
+                PointerTop = Console.CursorTop;
+
+                Console.SetCursorPosition(0, PointerTop - 2);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, (PointerTop - 1));
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, PointerTop - 2);
+
+                Console.WriteLine("please enter a valid weight in the format '00,00'");
+            }
+
+            productList[ProductID].UpdateWeight(Weight);
+            WeightLog tempObj = new WeightLog(ProductID,Weight,MachineID,weightLogs);
+            weightLogs.Add(tempObj);
+
+            Console.WriteLine($"New weight of product {ProductID} has been logged at {Weight} Tonnes");
+        }
+
         public static void CreateNewBlend()
         {
             Console.WriteLine("Please enter the name of the blend:");
@@ -477,7 +587,6 @@ namespace Superthene
                 Console.WriteLine($"{count}:  {LI.Name}\n\tTotal Produceable: {TotalAvailable} tonnes\n\tLimiting Matierial: {BindingMat}\n\t Price Per Tonne: R{LI.PricePerTonne(matierialsList,matierialSuppliesList)}");
                 count += 1;
             }
-            Console.ReadKey();
         }
 
         static void Main(string[] args)
@@ -504,10 +613,11 @@ namespace Superthene
                                     LogMatierialUsage();
                                     break;
                                 case 5:
-                                    MatierialsData(); 
+                                    MatierialsData();
                                     break;
                                 case 6:
                                     BlendsData();
+                                    Console.ReadKey();
                                     break;
                                 case 7:
                                     userInput = MatierialmanagementMenuInOptions() + 1;
@@ -526,6 +636,7 @@ namespace Superthene
                                     CreateNewProduct();
                                     break;
                                 case 2:
+                                    CreateWeightLog();
                                     break;
                                 case 3:
                                     break;
@@ -545,7 +656,32 @@ namespace Superthene
                     default:
                     break;
                 }
+                AlertsObject.AlertUser(matierialSuppliesList);
             } while (true);
+        }
+
+        static void ThreadErrorAlerts()
+        {
+            while (true)
+            {
+                AlertsObject = new Events();
+
+                Thread.Sleep(10000);
+                foreach (Matierial obj in matierialsList)
+                {
+                    List<Product> tempListProducts = (List<Product>)productList.Where(p => p.ManufactureDate > DateTime.Now.AddDays(-1214)).Where(p=>blendList[p.BlendID].MatierialIDs(matierialsList).Contains(obj.MatierialID));
+                    double averageRatio = 1.1 * tempListProducts.Average(p => blendList[p.BlendID].MatierialCompositionPercent(obj.MatierialName));
+                    Double ThreashHoldValue = averageRatio * tempListProducts.Average(p => p.InitialWeight);
+                    if (utils.MatierialSupply(obj.GetSupplyIDs(), matierialSuppliesList)<ThreashHoldValue)
+                    {
+                        //run event that informs the user that they should order more matierial of the selected type
+                        // if they do not order new matierial add it to the list of notified matierials as to not repeatedly order new matierial 
+                        AlertsObject.Alert += obj.AlertUser;
+                        
+                    }
+
+                }
+            }
         }
     }
 }

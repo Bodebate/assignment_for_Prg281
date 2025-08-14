@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blend.cs" />
+    <Compile Include="CustomException.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="Machine.cs" />
     <Compile Include="Matierial.cs" />
     <Compile Include="MatierialSupply.cs" />
     <Compile Include="Product.cs" />
@@ -62,6 +65,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
+    <Compile Include="WeightLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

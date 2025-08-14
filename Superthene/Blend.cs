@@ -26,18 +26,18 @@ namespace Superthene
             string matierialName;
             double PecentComposition;
 
-            Console.WriteLine("enter the number of matierials in the blend:");
+            Console.WriteLine("Enter the number of matierials in the blend:");
 
-            while (!int.TryParse(Console.ReadLine(), out numberOfMatierials))
+            while (!int.TryParse(Console.ReadLine(), out numberOfMatierials) || numberOfMatierials> matierialList.Count())
             {
-                Console.WriteLine("enter the number of matierials in the blend:");
+                Console.WriteLine("Enter a valid number of matierials for the blend:");
             }
 
             _blendMix = new string[numberOfMatierials, 2];
 
             for (int i = 0; i < numberOfMatierials; i++)
             {
-                Console.WriteLine("Please enter the name of the matierial");
+                Console.WriteLine("Please enter the name of the matierial "+i);
                 matierialName = Console.ReadLine();
 
                 while (!MatierialInList(matierialList, matierialName))
@@ -46,11 +46,11 @@ namespace Superthene
                     matierialName = Console.ReadLine();
                 }
 
-                Console.WriteLine("please enter the percent of this blend that this matierial makes up:");
+                Console.WriteLine($"Please enter the percent of this blend that {matierialName} makes up:");
 
                 while (!double.TryParse(Console.ReadLine(), out PecentComposition))
                 {
-                    Console.WriteLine("please enter the percent of this blend that this matierial makes up:");
+                    Console.WriteLine($"Please enter a valid percent of this blend that {matierialName} could make up:");
                 }
 
                 _blendMix[i, 0] = matierialName;
@@ -171,6 +171,20 @@ namespace Superthene
                 outarray[i] = MatierialIndex(matList, _blendMix[i, 0]);
             }
             return outarray;
+        }
+        public virtual double MatierialCompositionPercent(string MatierialName)
+        {
+            double result = 0;
+
+            for (int i = 0; i < _blendMix.Length / 2; i++)
+            {
+                if (_blendMix[i,0].ToUpper()== MatierialName.ToUpper())
+                {
+                    result += double.Parse(_blendMix[i, 1]);
+                }
+            }
+
+            return result;
         }
     }
 }
