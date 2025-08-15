@@ -18,7 +18,7 @@ namespace Superthene
             {
                 Console.Clear();
                 Console.WriteLine("The following matierials' supply levels are low!");
-                Console.WriteLine("Please consider ordering more!");
+                Console.WriteLine("Please consider ordering more!\n");
                 Alert(MatierialSupplyList);
 
                 Console.ReadKey();

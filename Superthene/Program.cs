@@ -119,7 +119,7 @@ namespace Superthene
 
             return userInput;
         }
-
+                
         public static int ProductionManagementInOptions()
         {
             int output = -1;
@@ -277,6 +277,10 @@ namespace Superthene
                         Console.WriteLine("1,5:" + utils.BlendInList(blendList, userInput));
                         Console.WriteLine("2:" + blendID);
                     }
+                }
+                else
+                {
+                    blendID += -1;
                 }
             }
 
@@ -591,6 +595,8 @@ namespace Superthene
 
         static void Main(string[] args)
         {
+            Thread alertsThread = new Thread(ThreadErrorAlerts);
+            alertsThread.Start();
             do
             {
                 switch(LoadMainMenu())
@@ -649,8 +655,10 @@ namespace Superthene
                         }while (userInput != ProductionManagementInOptions() + 1);
                     break;
                     case 3:
+                        AlertsObject.AlertUser(matierialSuppliesList);
                     break;
                     case 4:
+                        alertsThread.Abort();
                         Environment.Exit(0);
                         break;
                     default:
@@ -664,23 +672,28 @@ namespace Superthene
         {
             while (true)
             {
-                AlertsObject = new Events();
+                Events tempAlertsObj = new Events();
 
-                Thread.Sleep(10000);
+                
                 foreach (Matierial obj in matierialsList)
                 {
-                    List<Product> tempListProducts = (List<Product>)productList.Where(p => p.ManufactureDate > DateTime.Now.AddDays(-1214)).Where(p=>blendList[p.BlendID].MatierialIDs(matierialsList).Contains(obj.MatierialID));
-                    double averageRatio = 1.1 * tempListProducts.Average(p => blendList[p.BlendID].MatierialCompositionPercent(obj.MatierialName));
-                    Double ThreashHoldValue = averageRatio * tempListProducts.Average(p => p.InitialWeight);
-                    if (utils.MatierialSupply(obj.GetSupplyIDs(), matierialSuppliesList)<ThreashHoldValue)
+                    if (productList.Count > 0)
                     {
-                        //run event that informs the user that they should order more matierial of the selected type
-                        // if they do not order new matierial add it to the list of notified matierials as to not repeatedly order new matierial 
-                        AlertsObject.Alert += obj.AlertUser;
-                        
+                        List<Product> tempListProducts = (List<Product>)productList.Where(p => p.ManufactureDate > DateTime.Now.AddDays(-1214)).Where(p => blendList[p.BlendID].MatierialIDs(matierialsList).Contains(obj.MatierialID)).ToList();
+                        double averageRatio = 1.1 * tempListProducts.Average(p => blendList[p.BlendID].MatierialCompositionPercent(obj.MatierialName));
+                        Double ThreashHoldValue = averageRatio * tempListProducts.Average(p => p.InitialWeight)/100;
+
+                        if (utils.MatierialSupply(obj.GetSupplyIDs(), matierialSuppliesList) < ThreashHoldValue)
+                        {
+                            //run event that informs the user that they should order more matierial of the selected type
+                            // if they do not order new matierial add it to the list of notified matierials as to not repeatedly order new matierial 
+                            tempAlertsObj.Alert += obj.AlertUser;
+                        }
                     }
 
                 }
+                AlertsObject=tempAlertsObj;
+                Thread.Sleep(10000);
             }
         }
     }
