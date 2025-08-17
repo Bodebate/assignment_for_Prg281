@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Superthene
 {
-    internal class MatierialSupply
+    internal class MaterialSupply
     { private string _name;
         private DateTime _dateOfOrder;
         private double _price;
@@ -15,7 +15,7 @@ namespace Superthene
         private double _totalQuantityOrdered;
         private int _SupplyID;
 
-        public MatierialSupply(string Name, double Price, double Quantity,  IList<MatierialSupply> supplyList)
+        public MaterialSupply(string Name, double Price, double Quantity,  IList<MaterialSupply> supplyList)
         {
             _name = Name;
             _price = Price;

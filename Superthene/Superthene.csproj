@@ -54,8 +54,8 @@
     <Compile Include="CustomException.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Machine.cs" />
-    <Compile Include="Matierial.cs" />
-    <Compile Include="MatierialSupply.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="MaterialSupply.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

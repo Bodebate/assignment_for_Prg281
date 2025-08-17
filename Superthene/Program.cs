@@ -24,7 +24,7 @@ namespace Superthene
         public static IList<Product> productList = new List<Product>();
         public static IList<Machine> machineList = new List<Machine>();
         public static IList<WeightLog> weightLogs = new List<WeightLog>();
-        public static IList<Matierial> materialsList = new List<Matierial>();
+        public static IList<Material> materialsList = new List<Material>();
         public static IList<MaterialSupply> materialSuppliesList = new List<MaterialSupply>();
 
         enum MainMenu
@@ -302,7 +302,7 @@ namespace Superthene
 
             }
 
-            foreach (int MatID in blendList[blendID].MatierialIDs(materialsList))
+            foreach (int MatID in blendList[blendID].MaterialIDs(materialsList))
             {
                 double quantity = blendList[blendID].TotalMatUsed(materialsList, materialSuppliesList, initialWeight, materialsList[MatID].MaterialName);
                 Product tempObj = new Product(blendID, productList, initialWeight, blendList[blendID].PricePerTonne(materialsList, materialSuppliesList));
@@ -310,7 +310,7 @@ namespace Superthene
         
                 IList<int> Supplies = materialsList[(utils.MaterialIndex(materialsList, materialsList[MatID].MaterialName))].GetSupplyIDs();
 
-                if (utils.MatierialSupply(Supplies, materialSuppliesList) >= quantity)
+                if (utils.MaterialSupply(Supplies, materialSuppliesList) >= quantity)
                 {
                     foreach (int supplyID in Supplies)
                     {
@@ -319,13 +319,13 @@ namespace Superthene
                             double stock = materialSuppliesList[supplyID - 1].Stock;
                             if (stock > quantity)
                             {
-                                materialSuppliesList[supplyID - 1].UseMatierial(quantity);
+                                materialSuppliesList[supplyID - 1].UseMaterial(quantity);
                                 quantity = 0;
                                 break;
                             }
                             else
                             {
-                                materialSuppliesList[supplyID - 1].UseMatierial(stock);
+                                materialSuppliesList[supplyID - 1].UseMaterial(stock);
                                 quantity -= stock;
                             }
                         }
@@ -470,7 +470,7 @@ namespace Superthene
             Console.WriteLine();
             if (!exists)
             {
-                Matierial tempobj = new Matierial(name, materialsList);
+                Material tempobj = new Material(name, materialsList);
                 materialsList.Add(tempobj);
                 Console.WriteLine($"The material '{name.ToUpper()}' has been added successfully");
             }
@@ -517,27 +517,27 @@ namespace Superthene
             Console.ReadKey();
         }
         public static void LogMaterialUsage()
-        { int matierialNumber = -1;
+        { int materialNumber = -1;
             int count = 1;
             Console.Clear();
             foreach (var LI in materialsList)
             {
 
-                Console.WriteLine(count + ":  " + LI.MaterialName + "\t" + utils.MatierialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes");
+                Console.WriteLine(count + ":  " + LI.MaterialName + "\t" + utils.MaterialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes");
 
             }
 
             Console.WriteLine("Enter the name of the material used:");
-            string matierial = Console.ReadLine();
-            while (!utils.MaterialInList(materialsList, matierial) && (!int.TryParse(matierial, out matierialNumber) || matierialNumber <= 0 || matierialNumber > count))
+            string material = Console.ReadLine();
+            while (!utils.MaterialInList(materialsList, material) && (!int.TryParse(material, out materialNumber) || materialNumber <= 0 || materialNumber > count))
             {
                 Console.WriteLine("Please enter a valid material name:");
-                matierial = Console.ReadLine();
+                material = Console.ReadLine();
             }
 
-            if (int.TryParse(matierial, out matierialNumber))
+            if (int.TryParse(material, out materialNumber))
             {
-                matierial = materialsList[matierialNumber - 1].MaterialName;
+                material = materialsList[materialNumber - 1].MaterialName;
             }
 
             Console.WriteLine("Please enter the weight in tonnes of the material you used:");
@@ -549,9 +549,9 @@ namespace Superthene
                 userInput = Console.ReadLine();
             }
 
-            IList<int> Supplies = materialsList[(utils.MaterialIndex(materialsList, matierial))].GetSupplyIDs();
+            IList<int> Supplies = materialsList[(utils.MaterialIndex(materialsList, material))].GetSupplyIDs();
 
-            if (utils.MatierialSupply(Supplies, materialSuppliesList) >= quantity)
+            if (utils.MaterialSupply(Supplies, materialSuppliesList) >= quantity)
             {
                 foreach (int supplyID in Supplies)
                 {
@@ -560,13 +560,13 @@ namespace Superthene
                         double stock = materialSuppliesList[supplyID - 1].Stock;
                         if (stock > quantity)
                         {
-                            materialSuppliesList[supplyID - 1].UseMatierial(quantity);
+                            materialSuppliesList[supplyID - 1].UseMaterial(quantity);
                             quantity = 0;
                             break;
                         }
                         else
                         {
-                            materialSuppliesList[supplyID - 1].UseMatierial(stock);
+                            materialSuppliesList[supplyID - 1].UseMaterial(stock);
                             quantity -= stock;
                         }
                     }
@@ -578,7 +578,7 @@ namespace Superthene
             }
             else
             { 
-            Console.WriteLine($"Not enough matierial in stock. please order at least {quantity- utils.MatierialSupply(Supplies, materialSuppliesList)} tonnes more {matierial}");
+            Console.WriteLine($"Not enough material in stock. please order at least {quantity- utils.MaterialSupply(Supplies, materialSuppliesList)} tonnes more {material}");
             }
 
             Console.ReadKey();
@@ -591,7 +591,7 @@ namespace Superthene
             foreach (var LI in materialsList)
             {
 
-                Console.WriteLine(count + ": " + LI.MaterialName + "\n\t\t " + utils.MatierialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes \n\t\t R" + utils.MatierialCostPerTonne(LI.GetSupplyIDs(), materialSuppliesList)+" per tonne");
+                Console.WriteLine(count + ": " + LI.MaterialName + "\n\t\t " + utils.MaterialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes \n\t\t R" + utils.MaterialCostPerTonne(LI.GetSupplyIDs(), materialSuppliesList)+" per tonne");
                 count++;
             }
             Console.ReadKey();
@@ -603,7 +603,7 @@ namespace Superthene
             foreach(var LI in blendList)
             {
                 IDictionary<string,double> Materialstores = LI.BlendStores(materialsList, materialSuppliesList,out string BindingMat,out double TotalAvailable);
-                Console.WriteLine($"{count}:  {LI.Name}\n\tTotal Produceable: {TotalAvailable} tonnes\n\tLimiting Matierial: {BindingMat}\n\t Price Per Tonne: R{LI.PricePerTonne(materialsList,materialSuppliesList)}");
+                Console.WriteLine($"{count}:  {LI.Name}\n\tTotal Produceable: {TotalAvailable} tonnes\n\tLimiting Material: {BindingMat}\n\t Price Per Tonne: R{LI.PricePerTonne(materialsList,materialSuppliesList)}");
                 count += 1;
             }
         }
@@ -691,20 +691,20 @@ namespace Superthene
                 Events tempAlertsObj = new Events();
 
                 
-                foreach (Matierial obj in materialsList)
+                foreach (Material obj in materialsList)
                 {
                     if (productList.Count > 0)
                     {
-                        List<Product> tempListProducts = (List<Product>)productList.Where(p => p.ManufactureDate > DateTime.Now.AddDays(-1214)).Where(p => blendList[p.BlendID].MatierialIDs(materialsList).Contains(obj.MaterialID)).ToList();
+                        List<Product> tempListProducts = (List<Product>)productList.Where(p => p.ManufactureDate > DateTime.Now.AddDays(-1214)).Where(p => blendList[p.BlendID].MaterialIDs(materialsList).Contains(obj.MaterialID)).ToList();
                         if (tempListProducts.Count > 0)
                         {
-                            double averageRatio = 1.1 * tempListProducts.Average(p => blendList[p.BlendID].MatierialCompositionPercent(obj.MaterialName));
+                            double averageRatio = 1.1 * tempListProducts.Average(p => blendList[p.BlendID].MaterialCompositionPercent(obj.MaterialName));
                             Double ThreashHoldValue = averageRatio * tempListProducts.Average(p => p.InitialWeight) / 100;
 
-                            if (utils.MatierialSupply(obj.GetSupplyIDs(), materialSuppliesList) < ThreashHoldValue)
+                            if (utils.MaterialSupply(obj.GetSupplyIDs(), materialSuppliesList) < ThreashHoldValue)
                             {
-                                //run event that informs the user that they should order more matierial of the selected type
-                                // if they do not order new matierial add it to the list of notified matierials as to not repeatedly order new matierial 
+                                //run event that informs the user that they should order more material of the selected type
+                                // if they do not order new material add it to the list of notified materials as to not repeatedly order new material 
                                 tempAlertsObj.Alert += obj.AlertUser;
                             }
                         }

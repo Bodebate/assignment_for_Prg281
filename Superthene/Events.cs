@@ -9,10 +9,10 @@ namespace Superthene
 
     internal class Events
     {
-        public delegate void StockLow(IList<MatierialSupply> MaterialSupplyList);
+        public delegate void StockLow(IList<MaterialSupply> MaterialSupplyList);
         public event StockLow Alert;
 
-        public void AlertUser(IList<MatierialSupply> MaterialSupplyList)
+        public void AlertUser(IList<MaterialSupply> MaterialSupplyList)
         {
             if (Alert != null)
             {

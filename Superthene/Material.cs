@@ -7,14 +7,14 @@ using System.Web;
 
 namespace Superthene
 {
-    internal class Matierial: Utilities
+    internal class Material: Utilities
     {
         private string _materialName;
         private IList<int> _supplyIDs = new List<int>();
         private int _materialID;
         public string MaterialName { get { return _materialName; } }
         public int MaterialID { get { return _materialID; } }
-        public Matierial(string Name, IList<Matierial> list) 
+        public Material(string Name, IList<Material> list) 
         {
          _materialName = Name;
          _materialID = list.Count;
@@ -25,7 +25,7 @@ namespace Superthene
         }
         public IList<int> GetSupplyIDs() { return _supplyIDs; }
 
-        public void AlertUser(IList<MatierialSupply> MaterialSupplyList)
+        public void AlertUser(IList<MaterialSupply> MaterialSupplyList)
         {
             Console.WriteLine($"{_materialName.ToUpper()}\t Current stock level: {MaterialSupply(_supplyIDs, MaterialSupplyList)} tonnes");
         }

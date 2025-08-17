@@ -48,10 +48,10 @@ namespace Superthene
             }
             return location;
         }
-        public bool MaterialInList(IList<Matierial> material, string name)
+        public bool MaterialInList(IList<Material> material, string name)
         {
             bool found = false;
-            foreach (Matierial mat in material)
+            foreach (Material mat in material)
             {
                 if (mat.MaterialName.ToLower() == name.ToLower())
                 {
@@ -60,10 +60,10 @@ namespace Superthene
             }
             return found;
         }
-        public int MaterialIndex(IList<Matierial> list, string material)
+        public int MaterialIndex(IList<Material> list, string material)
         { int count = 0;
             int location = -1;
-            foreach (Matierial mat in list)
+            foreach (Material mat in list)
             {
                 if (mat.MaterialName.ToLower() == material.ToLower())
                 {
@@ -73,7 +73,7 @@ namespace Superthene
             }
             return location;
         }
-        public double MaterialSupply(IList<int> supplyIDs, IList<MatierialSupply> SuppliesList)
+        public double MaterialSupply(IList<int> supplyIDs, IList<MaterialSupply> SuppliesList)
         {
             double totalSupply = 0;
             foreach (int i in supplyIDs)
@@ -83,7 +83,7 @@ namespace Superthene
             return totalSupply;
         }
 
-        public double MaterialCostPerTonne(IList<int> supplyIDs, IList<MatierialSupply> SuppliesList)
+        public double MaterialCostPerTonne(IList<int> supplyIDs, IList<MaterialSupply> SuppliesList)
         {
             double totalSupply = 0;
             double totalCost = 0;

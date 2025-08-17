@@ -20,7 +20,7 @@ namespace Superthene
 
         }
 
-        public virtual void DetermineBlend(IList<Matierial> materialList)
+        public virtual void DetermineBlend(IList<Material> materialList)
         {
             int numberOfMaterials;
             string materialName;
@@ -58,7 +58,7 @@ namespace Superthene
             }
         }
 
-        public virtual IDictionary<string, double> BlendStores(IList<Matierial> matList, IList<MaterialSupply> supplies, out string BindingMatierial)
+        public virtual IDictionary<string, double> BlendStores(IList<Material> matList, IList<MaterialSupply> supplies, out string BindingMatierial)
         {
             IDictionary<string, double> OutDict = new Dictionary<string, double>();
             BindingMatierial = null;
@@ -68,7 +68,7 @@ namespace Superthene
             {
                 string MatierialName = _blendMix[i, 0];
                 double MatierialPercent = double.Parse(_blendMix[i, 1]);
-                double TotalMatStored = MatierialSupply(matList[MaterialIndex(matList, MatierialName)].GetSupplyIDs(), supplies);
+                double TotalMatStored = MaterialSupply(matList[MaterialIndex(matList, MatierialName)].GetSupplyIDs(), supplies);
 
                 OutDict.Add(MatierialName, TotalMatStored);
 
@@ -82,7 +82,7 @@ namespace Superthene
             return OutDict;
         }
 
-        public virtual IDictionary<string, double> BlendStores(IList<Matierial> matList, IList<MaterialSupply> supplies)
+        public virtual IDictionary<string, double> BlendStores(IList<Material> matList, IList<MaterialSupply> supplies)
         {
             IDictionary<string, double> OutDict = new Dictionary<string, double>();
 
@@ -90,7 +90,7 @@ namespace Superthene
             {
                 string MatierialName = _blendMix[i, 0];
                 double MatierialPercent = double.Parse(_blendMix[i, 1]);
-                double TotalMatStored = MatierialSupply(matList[MaterialIndex(matList, MatierialName)].GetSupplyIDs(), supplies);
+                double TotalMatStored = MaterialSupply(matList[MaterialIndex(matList, MatierialName)].GetSupplyIDs(), supplies);
 
                 OutDict.Add(MatierialName, TotalMatStored);
             }
@@ -98,7 +98,7 @@ namespace Superthene
             return OutDict;
         }
 
-        public virtual IDictionary<string, double> BlendStores(IList<Matierial> matList, IList<MaterialSupply> supplies, out string BindingMatierial, out double TotalAvailable)
+        public virtual IDictionary<string, double> BlendStores(IList<Material> matList, IList<MaterialSupply> supplies, out string BindingMatierial, out double TotalAvailable)
         {
             IDictionary<string, double> OutDict = new Dictionary<string, double>();
             BindingMatierial = null;
@@ -112,7 +112,7 @@ namespace Superthene
             {
                 string MatierialName = _blendMix[i, 0];
                 double MatierialPercent = double.Parse(_blendMix[i, 1]);
-                double TotalMatStored = MatierialSupply(matList[MaterialIndex(matList, MatierialName)].GetSupplyIDs(), supplies);
+                double TotalMatStored = MaterialSupply(matList[MaterialIndex(matList, MatierialName)].GetSupplyIDs(), supplies);
 
                 OutDict.Add(MatierialName, TotalMatStored);
 
@@ -135,14 +135,14 @@ namespace Superthene
             return OutDict;
         }
 
-        public virtual Double PricePerTonne(IList<Matierial> matList, IList<MaterialSupply> supplies)
+        public virtual Double PricePerTonne(IList<Material> matList, IList<MaterialSupply> supplies)
         {
             double CostPerTonne = 0;
             double Ratio = 0;
 
             for (int i = 0; i < _blendMix.Length / 2; i++)
             {
-                Double Temp = MatierialCostPerTonne(matList[MaterialIndex(matList, _blendMix[i, 0])].GetSupplyIDs(), supplies);
+                Double Temp = MaterialCostPerTonne(matList[MaterialIndex(matList, _blendMix[i, 0])].GetSupplyIDs(), supplies);
                 Temp = Temp * double.Parse(_blendMix[i, 1]);
                 CostPerTonne += Temp;
                 Ratio += double.Parse(_blendMix[i, 1]);
@@ -151,7 +151,7 @@ namespace Superthene
             else { return 0; }
 
         }
-        public virtual Double TotalMatUsed(IList<Matierial> matList, IList<MaterialSupply> supplies, double weight,string MatierialName)
+        public virtual Double TotalMatUsed(IList<Material> matList, IList<MaterialSupply> supplies, double weight,string MatierialName)
         {
             double Ratio = 0;
             double MatierialRatio = 0;
@@ -163,7 +163,7 @@ namespace Superthene
             if(Ratio > 0) { return weight * MatierialRatio / Ratio; }
             else { return 0; }
         }
-        public virtual int[] MatierialIDs(IList<Matierial> matList)
+        public virtual int[] MaterialIDs(IList<Material> matList)
         {
             int[] outarray = new int[_blendMix.Length / 2];
             for (int i = 0; i < _blendMix.Length / 2; i++)
@@ -172,13 +172,13 @@ namespace Superthene
             }
             return outarray;
         }
-        public virtual double MatierialCompositionPercent(string MatierialName)
+        public virtual double MaterialCompositionPercent(string materialName)
         {
             double result = 0;
 
             for (int i = 0; i < _blendMix.Length / 2; i++)
             {
-                if (_blendMix[i,0].ToUpper()== MatierialName.ToUpper())
+                if (_blendMix[i,0].ToUpper()== materialName.ToUpper())
                 {
                     result += double.Parse(_blendMix[i, 1]);
                 }
