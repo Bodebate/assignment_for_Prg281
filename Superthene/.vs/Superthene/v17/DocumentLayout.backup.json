@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\blend.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|solutionrelative:blend.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|c:\\users\\liamd\\documents\\belgium campus\\second year\\prg 281\\programmingassignment281\\assignment_for_prg281\\superthene\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\events.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|solutionrelative:events.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\machine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,20 +23,12 @@
       "RelativeMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|solutionrelative:utilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|c:\\users\\liamd\\documents\\belgium campus\\second year\\prg 281\\programmingassignment281\\assignment_for_prg281\\superthene\\customexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\customexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|solutionrelative:customexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\blend.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|solutionrelative:blend.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|solutionrelative:product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\events.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|solutionrelative:events.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EDF994E4-CABE-4F77-833E-5CD4C13DF920}|Superthene.csproj|C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\matierial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,33 +58,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "Events.cs",
               "DocumentMoniker": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Events.cs",
               "RelativeDocumentMoniker": "Events.cs",
               "ToolTip": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Events.cs",
               "RelativeToolTip": "Events.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAuwAwAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T17:13:47.439Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-14T17:13:47.439Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "Blend.cs",
               "DocumentMoniker": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Blend.cs",
               "RelativeDocumentMoniker": "Blend.cs",
               "ToolTip": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Blend.cs",
               "RelativeToolTip": "Blend.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAK4AAABPAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAwwK4AAABPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-07T10:47:57.063Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "CustomException.cs",
               "DocumentMoniker": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\CustomException.cs",
               "RelativeDocumentMoniker": "CustomException.cs",
@@ -92,25 +91,24 @@
               "RelativeToolTip": "CustomException.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T19:30:26.539Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-14T19:30:26.539Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAJ4CAAAAAAAAAAA7wLsCAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAIsCAAAAAAAAAADwv6wCAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-04T22:51:33.227Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Product.cs",
               "DocumentMoniker": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Product.cs",
               "RelativeDocumentMoniker": "Product.cs",
@@ -118,12 +116,11 @@
               "RelativeToolTip": "Product.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAswBcAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-11T20:39:45.618Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-11T20:39:45.618Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Utilities.cs",
               "DocumentMoniker": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Utilities.cs",
               "RelativeDocumentMoniker": "Utilities.cs",
@@ -131,12 +128,11 @@
               "RelativeToolTip": "Utilities.cs",
               "ViewState": "AgIAAFEAAAAAAAAAAAAiwAsAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-11T09:07:57.169Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-11T09:07:57.169Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Machine.cs",
               "DocumentMoniker": "C:\\Users\\liamd\\Documents\\Belgium campus\\second Year\\prg 281\\ProgrammingAssignment281\\assignment_for_Prg281\\Superthene\\Machine.cs",
               "RelativeDocumentMoniker": "Machine.cs",
@@ -144,8 +140,7 @@
               "RelativeToolTip": "Machine.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T09:20:50.285Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-13T09:20:50.285Z"
             },
             {
               "$type": "Document",
@@ -157,8 +152,7 @@
               "RelativeToolTip": "Matierial.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAmwB0AAACMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T12:14:26.735Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-07T12:14:26.735Z"
             },
             {
               "$type": "Document",
@@ -170,8 +164,7 @@
               "RelativeToolTip": "MatierialSupply.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAQwB4AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T12:21:12.176Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-07T12:21:12.176Z"
             },
             {
               "$type": "Document",
@@ -183,8 +176,7 @@
               "RelativeToolTip": "WeightLog.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAA7wBgAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-12T08:19:20.727Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-12T08:19:20.727Z"
             }
           ]
         }
