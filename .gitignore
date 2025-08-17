@@ -1,0 +1,31 @@
+# Build results
+bin/
+obj/
+Debug/
+Release/
+
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vs/
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Resharper files
+_ReSharper*/
+*.ReSharper*/
+
+# NuGet packages
+*.nupkg
+packages/
+*.snupkg
+
+# Others
+*.log
+*.tmp
+*.cache
