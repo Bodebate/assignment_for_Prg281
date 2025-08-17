@@ -24,7 +24,7 @@ namespace Superthene
             _dateOfOrder = DateTime.Now;
             _SupplyID = supplyList.Count;   
         }
-        public virtual bool UseMatierial(double UsedQuantity)
+        public virtual bool UseMaterial(double UsedQuantity)
         {
             if (UsedQuantity < 0 || _quantityRemaining < UsedQuantity)
             {

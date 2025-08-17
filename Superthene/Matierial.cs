@@ -9,15 +9,15 @@ namespace Superthene
 {
     internal class Matierial: Utilities
     {
-        private string _matierialName;
+        private string _materialName;
         private IList<int> _supplyIDs = new List<int>();
-        private int _matierialID;
-        public string MatierialName { get { return _matierialName; } }
-        public int MatierialID { get { return _matierialID; } }
+        private int _materialID;
+        public string MaterialName { get { return _materialName; } }
+        public int MaterialID { get { return _materialID; } }
         public Matierial(string Name, IList<Matierial> list) 
         {
-         _matierialName = Name;
-         _matierialID = list.Count;
+         _materialName = Name;
+         _materialID = list.Count;
         }
         public void AddSupply(int SupplyId)
         {
@@ -25,9 +25,9 @@ namespace Superthene
         }
         public IList<int> GetSupplyIDs() { return _supplyIDs; }
 
-        public void AlertUser(IList<MatierialSupply> MatieriaSupplyList)
+        public void AlertUser(IList<MatierialSupply> MaterialSupplyList)
         {
-            Console.WriteLine($"{_matierialName.ToUpper()}\t Current stock level: {MatierialSupply(_supplyIDs,MatieriaSupplyList)} tonnes");
+            Console.WriteLine($"{_materialName.ToUpper()}\t Current stock level: {MaterialSupply(_supplyIDs, MaterialSupplyList)} tonnes");
         }
     }
 }

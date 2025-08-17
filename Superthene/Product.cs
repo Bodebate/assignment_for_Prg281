@@ -13,7 +13,7 @@ namespace Superthene
         private double _initialWeight;
         private double _currentWeight;
         private double _pricePerTonne;
-        private double _totalCostOfMatierials;
+        private double _totalCostOfMaterials;
         private DateTime _ManufactureDate;
         private bool _sold;
         public int ProductID { get { return _ProductID; } }
@@ -29,14 +29,14 @@ namespace Superthene
             _initialWeight = initialWeight;
             _currentWeight = initialWeight;
             _pricePerTonne = pricePerTonne;
-            _totalCostOfMatierials = _pricePerTonne*_initialWeight;
+            _totalCostOfMaterials = _pricePerTonne*_initialWeight;
             _ManufactureDate = DateTime.Now;
             _sold = false;
         }
         public void UpdateWeight(double weight)
         {
             _currentWeight = weight;
-            _pricePerTonne = _totalCostOfMatierials/weight;
+            _pricePerTonne = _totalCostOfMaterials/weight;
         }
 
         

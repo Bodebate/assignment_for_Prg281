@@ -9,17 +9,17 @@ namespace Superthene
 
     internal class Events
     {
-        public delegate void StockLow(IList<MatierialSupply> MatierialSupplyList);
+        public delegate void StockLow(IList<MatierialSupply> MaterialSupplyList);
         public event StockLow Alert;
 
-        public void AlertUser(IList<MatierialSupply> MatierialSupplyList)
+        public void AlertUser(IList<MatierialSupply> MaterialSupplyList)
         {
             if (Alert != null)
             {
                 Console.Clear();
                 Console.WriteLine("The following matierials' supply levels are low!");
                 Console.WriteLine("Please consider ordering more!\n");
-                Alert(MatierialSupplyList);
+                Alert(MaterialSupplyList);
 
                 Console.ReadKey();
           

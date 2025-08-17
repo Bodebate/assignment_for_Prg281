@@ -9,10 +9,10 @@ namespace Superthene
 {
     interface utilities
     {
-        bool MatierialInList();
-        int MatierialIndex();
-        double MatierialSupply();
-        double MatierialCostPerTonne();
+        bool MaterialInList();
+        int MaterialIndex();
+        double MaterialSupply();
+        double MaterialCostPerTonne();
 
 
         int BlendIndex();
@@ -48,24 +48,24 @@ namespace Superthene
             }
             return location;
         }
-        public bool MatierialInList(IList<Matierial> matierial, string name)
+        public bool MaterialInList(IList<Matierial> material, string name)
         {
             bool found = false;
-            foreach (Matierial mat in matierial)
+            foreach (Matierial mat in material)
             {
-                if (mat.MatierialName.ToLower() == name.ToLower())
+                if (mat.MaterialName.ToLower() == name.ToLower())
                 {
                     found = true;
                 }
             }
             return found;
         }
-        public int MatierialIndex(IList<Matierial> list, string matierial)
+        public int MaterialIndex(IList<Matierial> list, string material)
         { int count = 0;
             int location = -1;
             foreach (Matierial mat in list)
             {
-                if (mat.MatierialName.ToLower() == matierial.ToLower())
+                if (mat.MaterialName.ToLower() == material.ToLower())
                 {
                     location = count;
                 }
@@ -73,7 +73,7 @@ namespace Superthene
             }
             return location;
         }
-        public double MatierialSupply(IList<int> supplyIDs, IList<MatierialSupply> SuppliesList)
+        public double MaterialSupply(IList<int> supplyIDs, IList<MatierialSupply> SuppliesList)
         {
             double totalSupply = 0;
             foreach (int i in supplyIDs)
@@ -83,7 +83,7 @@ namespace Superthene
             return totalSupply;
         }
 
-        public double MatierialCostPerTonne(IList<int> supplyIDs, IList<MatierialSupply> SuppliesList)
+        public double MaterialCostPerTonne(IList<int> supplyIDs, IList<MatierialSupply> SuppliesList)
         {
             double totalSupply = 0;
             double totalCost = 0;
