@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Superthene
 {
+    // Represents a product manufactured from a blend, tracking its weight, cost, and sale status.
     internal class Product 
     {
         private int _blendID;
@@ -22,6 +23,7 @@ namespace Superthene
         public DateTime ManufactureDate { get { return _ManufactureDate; } }
         public double weight { get { return _currentWeight; } }
         public double InitialWeight { get { return _initialWeight; } }
+        // Constructor: Initializes a new product with blend, weight, and cost details.
         public Product(int blendID,IList<Product> productList, double initialWeight, double pricePerTonne)
         {
             _blendID = blendID;
@@ -33,12 +35,11 @@ namespace Superthene
             _ManufactureDate = DateTime.Now;
             _sold = false;
         }
+        // Updates the product's current weight and recalculates price per tonne.
         public void UpdateWeight(double weight)
         {
             _currentWeight = weight;
             _pricePerTonne = _totalCostOfMaterials/weight;
         }
-
-        
     }
 }

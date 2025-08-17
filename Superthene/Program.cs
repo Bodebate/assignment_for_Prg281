@@ -11,15 +11,12 @@ using System.Threading;
 
 namespace Superthene
 {
-    //test push
-    //test push
+    // Main entry point and core logic for the Superthene material management and production tracking application.
     internal class Program
     {
         public static Utilities utils = new Utilities();
         public static int userInput = -1;
-
         public static Events AlertsObject = new Events();
-        
         public static IList<Blend> blendList = new List<Blend>();
         public static IList<Product> productList = new List<Product>();
         public static IList<Machine> machineList = new List<Machine>();
@@ -53,6 +50,7 @@ namespace Superthene
         }
 
 
+        // Returns the highest value in the MainMenu enum.
         public static int MainMenuInOptions()
         {
             int output = -1;
@@ -62,6 +60,7 @@ namespace Superthene
             }
             return output;
         }
+        // Displays the main menu and handles user input for navigation.
         public static int LoadMainMenu()
         {
             int counter = 1;
@@ -122,6 +121,7 @@ namespace Superthene
             return userInput;
         }
                 
+        // Returns the highest value in the MainMenu enum (for production management menu).
         public static int ProductionManagementInOptions()
         {
             int output = -1;
@@ -131,6 +131,7 @@ namespace Superthene
             }
             return output;
         }
+        // Displays the production management menu and handles user input for navigation.
         public static int ProductionManagementMenu()
         {
             int counter = 1;
@@ -188,6 +189,7 @@ namespace Superthene
             return userInput;
         }
 
+        // Returns the highest value in the MaterialManagementMenu enum.
         public static int MaterialmanagementMenuInOptions()
         {
             int output = -1;
@@ -197,6 +199,7 @@ namespace Superthene
             }
             return output;
         }
+        // Displays the material management menu and handles user input for navigation.
         public static int LoadMaterialManagementMenu()
         {
             int counter = 1;
@@ -255,6 +258,7 @@ namespace Superthene
             return userInput;
         }
 
+        // Handles the creation of a new product, including blend selection and material deduction.
         public static void CreateNewProduct()
         {
             string userInput;
@@ -334,6 +338,7 @@ namespace Superthene
             }
 
         }
+        // Handles the creation of a new weight log for a product.
         public static void CreateWeightLog()
         {
             int PointerTop;
@@ -406,6 +411,7 @@ namespace Superthene
 
             Console.WriteLine($"New weight of product {ProductID} has been logged at {Weight} Tonnes");
         }
+        // Displays all products and their details.
         public static void DisplayProducts()
         {
             Console.Clear();
@@ -420,6 +426,7 @@ namespace Superthene
             Console.ReadKey();
         }
 
+        // Handles the creation of a new blend.
         public static void CreateNewBlend()
         {
             Console.WriteLine("Please enter the name of the blend:");
@@ -451,6 +458,7 @@ namespace Superthene
             }
             Console.ReadKey();
         }
+        // Handles the creation of a new material.
         public static void CreateNewMaterial()
         {
             string name;
@@ -480,6 +488,7 @@ namespace Superthene
             }
             Console.ReadKey();
         }
+        // Handles the addition of a new material supply.
         public static void AddNewMaterialSupply()
         {
             double value;
@@ -516,6 +525,7 @@ namespace Superthene
             Console.WriteLine("Supplies successfully added");
             Console.ReadKey();
         }
+        // Handles logging the usage of a material and updates supply levels.
         public static void LogMaterialUsage()
         { int materialNumber = -1;
             int count = 1;
@@ -584,6 +594,7 @@ namespace Superthene
             Console.ReadKey();
 
         }
+        // Displays all materials and their stock/cost details.
         public static void MaterialsData()
         {
             int count = 1;
@@ -596,6 +607,7 @@ namespace Superthene
             }
             Console.ReadKey();
         }
+        // Displays all blends and their details.
         public static void BlendsData() 
         {
             int count = 1;
@@ -608,6 +620,7 @@ namespace Superthene
             }
         }
 
+        // Main entry point: runs the main application loop and handles menu navigation.
         static void Main(string[] args)
         {
             Thread alertsThread = new Thread(ThreadErrorAlerts);
@@ -684,6 +697,7 @@ namespace Superthene
             } while (true);
         }
 
+        // Background thread for monitoring material stock and alerting the user if levels are low.
         static void ThreadErrorAlerts()
         {
             while (true)

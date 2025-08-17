@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Superthene
 {
+    // Represents a blend of materials and provides methods for blend management and calculations.
     internal class Blend : Utilities
     {
         private string[,] _blendMix;
@@ -13,13 +14,14 @@ namespace Superthene
         public int BlendCode { get { return _blendCode; } }
         public string Name { get { return _name; } }
 
+        // Constructor: Initializes a new blend with a name and assigns a blend code based on the blend list count.
         public Blend(string name, IList<Blend> blendList)
         {
             _name = name;
             _blendCode = blendList.Count();
-
         }
 
+        // Prompts the user to define the blend's material composition interactively.
         public virtual void DetermineBlend(IList<Material> materialList)
         {
             int numberOfMaterials;
@@ -58,6 +60,7 @@ namespace Superthene
             }
         }
 
+        // Calculates the available stock for each material in the blend and identifies the limiting material.
         public virtual IDictionary<string, double> BlendStores(IList<Material> matList, IList<MaterialSupply> supplies, out string BindingMatierial)
         {
             IDictionary<string, double> OutDict = new Dictionary<string, double>();
@@ -82,6 +85,7 @@ namespace Superthene
             return OutDict;
         }
 
+        // Returns a dictionary of available stock for each material in the blend.
         public virtual IDictionary<string, double> BlendStores(IList<Material> matList, IList<MaterialSupply> supplies)
         {
             IDictionary<string, double> OutDict = new Dictionary<string, double>();
@@ -98,6 +102,7 @@ namespace Superthene
             return OutDict;
         }
 
+        // Calculates available stock and limiting material, and computes total available blend output.
         public virtual IDictionary<string, double> BlendStores(IList<Material> matList, IList<MaterialSupply> supplies, out string BindingMatierial, out double TotalAvailable)
         {
             IDictionary<string, double> OutDict = new Dictionary<string, double>();
@@ -135,6 +140,7 @@ namespace Superthene
             return OutDict;
         }
 
+        // Calculates the price per tonne for the blend based on the cost and ratio of each material.
         public virtual Double PricePerTonne(IList<Material> matList, IList<MaterialSupply> supplies)
         {
             double CostPerTonne = 0;
@@ -151,6 +157,8 @@ namespace Superthene
             else { return 0; }
 
         }
+
+        // Calculates the total amount of a specific material used in a blend for a given weight.
         public virtual Double TotalMatUsed(IList<Material> matList, IList<MaterialSupply> supplies, double weight,string MatierialName)
         {
             double Ratio = 0;
@@ -163,6 +171,8 @@ namespace Superthene
             if(Ratio > 0) { return weight * MatierialRatio / Ratio; }
             else { return 0; }
         }
+
+        // Returns the indices of all materials used in the blend.
         public virtual int[] MaterialIDs(IList<Material> matList)
         {
             int[] outarray = new int[_blendMix.Length / 2];
@@ -172,6 +182,8 @@ namespace Superthene
             }
             return outarray;
         }
+
+        // Returns the percentage composition of a specific material in the blend.
         public virtual double MaterialCompositionPercent(string materialName)
         {
             double result = 0;

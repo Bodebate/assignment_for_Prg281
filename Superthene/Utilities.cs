@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace Superthene
 {
+    // Provides utility methods for searching and calculating information about blends and materials.
     interface utilities
     {
         bool MaterialInList();
         int MaterialIndex();
         double MaterialSupply();
         double MaterialCostPerTonne();
-
-
         int BlendIndex();
         bool BlendInList();
 
@@ -22,6 +21,7 @@ namespace Superthene
     }
     internal class Utilities
     {
+        // Checks if a blend with the given name exists in the list.
         public bool BlendInList(IList<Blend> Blends, string name)
         {
             bool found = false;
@@ -34,6 +34,7 @@ namespace Superthene
             }
             return found;
         }
+        // Returns the index of a blend with the given name in the list.
         public int BlendIndex(IList<Blend> blends, string name)
         {
             int count = 0;
@@ -48,6 +49,7 @@ namespace Superthene
             }
             return location;
         }
+        // Checks if a material with the given name exists in the list.
         public bool MaterialInList(IList<Material> material, string name)
         {
             bool found = false;
@@ -60,6 +62,7 @@ namespace Superthene
             }
             return found;
         }
+        // Returns the index of a material with the given name in the list.
         public int MaterialIndex(IList<Material> list, string material)
         { int count = 0;
             int location = -1;
@@ -73,6 +76,7 @@ namespace Superthene
             }
             return location;
         }
+        // Calculates the total stock available for a list of supply IDs.
         public double MaterialSupply(IList<int> supplyIDs, IList<MaterialSupply> SuppliesList)
         {
             double totalSupply = 0;
@@ -83,6 +87,7 @@ namespace Superthene
             return totalSupply;
         }
 
+        // Calculates the average cost per tonne for a list of supply IDs.
         public double MaterialCostPerTonne(IList<int> supplyIDs, IList<MaterialSupply> SuppliesList)
         {
             double totalSupply = 0;

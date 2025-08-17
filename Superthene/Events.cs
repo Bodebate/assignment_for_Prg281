@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Superthene
 {
-
+    // Handles stock level events and user alerts for low material supply.
     internal class Events
     {
         public delegate void StockLow(IList<MaterialSupply> MaterialSupplyList);
         public event StockLow Alert;
 
+        // Notifies the user if any material supply levels are low.
         public void AlertUser(IList<MaterialSupply> MaterialSupplyList)
         {
             if (Alert != null)
@@ -22,10 +23,7 @@ namespace Superthene
                 Alert(MaterialSupplyList);
 
                 Console.ReadKey();
-          
             }
         }
     }
-
 }
-    
