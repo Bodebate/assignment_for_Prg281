@@ -1,6 +1,0 @@
-C:\Users\liamd\Documents\Belgium campus\second Year\prg 281\ProgrammingAssignment281\assignment_for_Prg281\Superthene\bin\Debug\Superthene.exe
-C:\Users\liamd\Documents\Belgium campus\second Year\prg 281\ProgrammingAssignment281\assignment_for_Prg281\Superthene\bin\Debug\Superthene.pdb
-C:\Users\liamd\Documents\Belgium campus\second Year\prg 281\ProgrammingAssignment281\assignment_for_Prg281\Superthene\obj\Debug\Superthene.csproj.AssemblyReference.cache
-C:\Users\liamd\Documents\Belgium campus\second Year\prg 281\ProgrammingAssignment281\assignment_for_Prg281\Superthene\obj\Debug\Superthene.csproj.CoreCompileInputs.cache
-C:\Users\liamd\Documents\Belgium campus\second Year\prg 281\ProgrammingAssignment281\assignment_for_Prg281\Superthene\obj\Debug\Superthene.exe
-C:\Users\liamd\Documents\Belgium campus\second Year\prg 281\ProgrammingAssignment281\assignment_for_Prg281\Superthene\obj\Debug\Superthene.pdb
