@@ -66,7 +66,7 @@ namespace Superthene
             int counter = 1;
             bool valid = false;
             Console.Clear();
-
+            PrintBoxedTitle("Main Menu");
             foreach (string Option in Enum.GetNames(typeof(MainMenu)))
             {
                 Console.WriteLine(counter++ +": " + Option.Replace('_', ' ').Replace("AND", "&"));
@@ -137,7 +137,7 @@ namespace Superthene
             int counter = 1;
             bool valid = false;
             Console.Clear();
-
+            PrintBoxedTitle("Production Tracking");
             foreach (string Option in Enum.GetNames(typeof(ProductionTrackingMenu)))
             {
                 Console.WriteLine(counter++ + ": " + Option.Replace('_', ' '));
@@ -205,7 +205,7 @@ namespace Superthene
             int counter = 1;
             bool valid = false;
             Console.Clear();
-
+            PrintBoxedTitle("Material Management");
             foreach (string Option in Enum.GetNames(typeof(MaterialManagementMenu)))
             {
                 Console.WriteLine(counter++ + ": " + Option.Replace('_', ' '));
@@ -620,9 +620,29 @@ namespace Superthene
             }
         }
 
+        // Print a boxed title at the top of each menu screen
+        private static void PrintBoxedTitle(string title)
+        {
+            int width = title.Length + 4;
+            string top = "╔" + new string('═', width - 2) + "╗";
+            string mid = $"║ {title} ║";
+            string bot = "╚" + new string('═', width - 2) + "╝";
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(top);
+            Console.WriteLine(mid);
+            Console.WriteLine(bot);
+            Console.ResetColor();
+        }
+
         // Main entry point: runs the main application loop and handles menu navigation.
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\r\n▒█▀▀▀█ ▒█░▒█ ▒█▀▀█ ▒█▀▀▀ ▒█▀▀█ ▀▀█▀▀ ▒█░▒█ ▒█▀▀▀ ▒█▄░▒█ ▒█▀▀▀ \r\n░▀▀▀▄▄ ▒█░▒█ ▒█▄▄█ ▒█▀▀▀ ▒█▄▄▀ ░▒█░░ ▒█▀▀█ ▒█▀▀▀ ▒█▒█▒█ ▒█▀▀▀ \r\n▒█▄▄▄█ ░▀▄▄▀ ▒█░░░ ▒█▄▄▄ ▒█░▒█ ░▒█░░ ▒█░▒█ ▒█▄▄▄ ▒█░░▀█ ▒█▄▄▄");
+            Console.ResetColor();
+            Console.WriteLine("\n\t\tPress any key to continue...");
+            Console.ReadKey();
+            
             Thread alertsThread = new Thread(ThreadErrorAlerts);
             alertsThread.Start();
             do
