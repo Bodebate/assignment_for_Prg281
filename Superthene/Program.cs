@@ -36,6 +36,7 @@ namespace Superthene
             Create_new_product =1,
             Create_weight_log_,
             Product_details___,
+            Sell_Product______,
             Exit______________
         }
         enum MaterialManagementMenu
@@ -46,6 +47,7 @@ namespace Superthene
             Log_materials_used__,
             Materials_Stored____,
             Blends_Details______,
+            Create_New_Machine__,
             Exit________________
         }
 
@@ -425,7 +427,6 @@ namespace Superthene
             Console.WriteLine("=====================================================================================================");
             Console.ReadKey();
         }
-
         // Handles the creation of a new blend.
         public static void CreateNewBlend()
         {
@@ -619,6 +620,48 @@ namespace Superthene
                 count += 1;
             }
         }
+        //handles creation of machines / regester of new machines
+        public static void CreateNewMachine()
+        {
+            Console.WriteLine("Please enter a description of the machine then press enter.");
+            Machine tempObj = new Machine(machineList, Console.ReadLine());
+            machineList.Add(tempObj);
+
+            Console.WriteLine($"successfully added machine #{machineList.Count - 1}");
+            Console.ReadKey();
+        }
+        //denotes the sale of a product
+        public static void SellProduct()
+        {
+            int PointerTop;
+            Console.Clear();
+            Console.WriteLine("=====================================================================================================");
+
+            foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate))
+            {
+                Console.WriteLine($"Product ID :{obj.ProductID}  \n\tBlend: {blendList[obj.BlendID].Name} \n\tDate of manufacture: {obj.ManufactureDate} \n\tLast recorded weight: {obj.weight}");
+            }
+
+            Console.WriteLine("=====================================================================================================");
+
+            int ProductID;
+            Console.WriteLine("\n Please enter the Product ID number that you are updating");
+            while (!int.TryParse(Console.ReadLine(), out ProductID) || ProductID < 0 || ProductID > productList.Count)
+            {
+                PointerTop = Console.CursorTop;
+
+                Console.SetCursorPosition(0, PointerTop - 2);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, (PointerTop - 1));
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, PointerTop - 2);
+
+                Console.WriteLine("Please enter a valid number that represents a product ID");
+            }
+
+            Console.WriteLine("Product status successfully updated!");
+            Console.ReadKey();
+        }
 
         // Print a boxed title at the top of each menu screen
         private static void PrintBoxedTitle(string title)
@@ -674,6 +717,9 @@ namespace Superthene
                                     Console.ReadKey();
                                     break;
                                 case 7:
+                                    CreateNewMachine();
+                                    break;
+                                case 8:
                                     userInput = MaterialmanagementMenuInOptions() + 1;
                                     break;
                                 default:
@@ -696,6 +742,9 @@ namespace Superthene
                                     DisplayProducts();
                                     break;
                                 case 4:
+                                    SellProduct();
+                                    break;
+                                case 5:
                                     userInput = ProductionManagementInOptions() + 1;
                                     break;
                                 default :

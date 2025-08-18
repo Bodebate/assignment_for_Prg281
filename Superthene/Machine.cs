@@ -15,9 +15,10 @@ namespace Superthene
         public int MachineID { get { return _machineID; } }
         public string MachineDetails { get { return _machineDetails; } }
         // Constructor: Assigns a unique machine ID based on the machine list count.
-        public Machine(IList<Machine> list)
+        public Machine(IList<Machine> list,string machineDetails)
         {
             _machineID = list.Count;
+            _machineDetails = machineDetails;
         }
     }
 }
