@@ -9,6 +9,7 @@ namespace Superthene
     // Handles stock level events and user alerts for low material supply.
     internal class Events
     {
+        //Creates an event that will trigger a alert messages
         public delegate void StockLow(IList<MaterialSupply> MaterialSupplyList);
         public event StockLow Alert;
 
@@ -20,7 +21,7 @@ namespace Superthene
                 Console.Clear();
                 Console.WriteLine("The following matierials' supply levels are low!");
                 Console.WriteLine("Please consider ordering more!\n");
-                Alert(MaterialSupplyList);
+                Alert(MaterialSupplyList);//Calls all subscribers
 
                 Console.ReadKey();
             }
