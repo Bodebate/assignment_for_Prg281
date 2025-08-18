@@ -36,7 +36,6 @@ namespace Superthene
             Create_new_product =1,
             Create_weight_log_,
             Product_details___,
-            Sell_Product______,
             Exit______________
         }
         enum MaterialManagementMenu
@@ -47,7 +46,6 @@ namespace Superthene
             Log_materials_used__,
             Materials_Stored____,
             Blends_Details______,
-            Create_New_Machine__,
             Exit________________
         }
 
@@ -68,7 +66,7 @@ namespace Superthene
             int counter = 1;
             bool valid = false;
             Console.Clear();
-            PrintBoxedTitle("Main Menu");
+            UIManager.ClearAndShowTitle("Main Menu");
             foreach (string Option in Enum.GetNames(typeof(MainMenu)))
             {
                 Console.WriteLine(counter++ +": " + Option.Replace('_', ' ').Replace("AND", "&"));
@@ -139,7 +137,7 @@ namespace Superthene
             int counter = 1;
             bool valid = false;
             Console.Clear();
-            PrintBoxedTitle("Production Tracking");
+            UIManager.ClearAndShowTitle("Production Tracking");
             foreach (string Option in Enum.GetNames(typeof(ProductionTrackingMenu)))
             {
                 Console.WriteLine(counter++ + ": " + Option.Replace('_', ' '));
@@ -207,14 +205,14 @@ namespace Superthene
             int counter = 1;
             bool valid = false;
             Console.Clear();
-            PrintBoxedTitle("Material Management");
+            UIManager.ClearAndShowTitle("Material Management");
             foreach (string Option in Enum.GetNames(typeof(MaterialManagementMenu)))
             {
                 Console.WriteLine(counter++ + ": " + Option.Replace('_', ' '));
-
             }
             Console.WriteLine();
 
+            int returnValue = -1;
             while (!valid)
             {   
                 string userInputString = Console.ReadLine();
@@ -235,6 +233,7 @@ namespace Superthene
                     else
                     {
                         valid = true;
+                        returnValue = userInput;
                     }
                 }
                 else
@@ -248,6 +247,7 @@ namespace Superthene
                     {
                         userInput = list.IndexOf(userInputString.TrimEnd()) + 1;
                         valid = true;
+                        returnValue = userInput;
                     }
                     else
                     {
@@ -257,7 +257,7 @@ namespace Superthene
                 }
             }
 
-            return userInput;
+            return returnValue;
         }
 
         // Handles the creation of a new product, including blend selection and material deduction.
@@ -416,7 +416,7 @@ namespace Superthene
         // Displays all products and their details.
         public static void DisplayProducts()
         {
-            Console.Clear();
+            UIManager.ClearAndShowTitle("Product Details");
             Console.WriteLine("=====================================================================================================");
 
             foreach (Product obj in productList.OrderBy(p => p.ManufactureDate))
@@ -427,9 +427,11 @@ namespace Superthene
             Console.WriteLine("=====================================================================================================");
             Console.ReadKey();
         }
+
         // Handles the creation of a new blend.
         public static void CreateNewBlend()
         {
+            UIManager.ClearAndShowTitle("Create New Blend");
             Console.WriteLine("Please enter the name of the blend:");
             string name = Console.ReadLine();
             bool exists = false;
@@ -462,6 +464,7 @@ namespace Superthene
         // Handles the creation of a new material.
         public static void CreateNewMaterial()
         {
+            UIManager.ClearAndShowTitle("Create New Material");
             string name;
             bool exists = false;
             Console.WriteLine("Please enter the name of the material ");
@@ -492,6 +495,7 @@ namespace Superthene
         // Handles the addition of a new material supply.
         public static void AddNewMaterialSupply()
         {
+            UIManager.ClearAndShowTitle("Add New Material Supply");
             double value;
             double quantity;
             Console.WriteLine("Please enter the name of the material you've purchased:");
@@ -528,14 +532,14 @@ namespace Superthene
         }
         // Handles logging the usage of a material and updates supply levels.
         public static void LogMaterialUsage()
-        { int materialNumber = -1;
+        { 
+            UIManager.ClearAndShowTitle("Log Material Usage");
+            int materialNumber = -1;
             int count = 1;
-            Console.Clear();
             foreach (var LI in materialsList)
             {
-
                 Console.WriteLine(count + ":  " + LI.MaterialName + "\t" + utils.MaterialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes");
-
+                count++;
             }
 
             Console.WriteLine("Enter the name of the material used:");
@@ -598,11 +602,10 @@ namespace Superthene
         // Displays all materials and their stock/cost details.
         public static void MaterialsData()
         {
+            UIManager.ClearAndShowTitle("Materials Data");
             int count = 1;
-            Console.Clear();
             foreach (var LI in materialsList)
             {
-
                 Console.WriteLine(count + ": " + LI.MaterialName + "\n\t\t " + utils.MaterialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes \n\t\t R" + utils.MaterialCostPerTonne(LI.GetSupplyIDs(), materialSuppliesList)+" per tonne");
                 count++;
             }
@@ -611,8 +614,8 @@ namespace Superthene
         // Displays all blends and their details.
         public static void BlendsData() 
         {
+            UIManager.ClearAndShowTitle("Blends Data");
             int count = 1;
-            Console.Clear();
             foreach(var LI in blendList)
             {
                 IDictionary<string,double> Materialstores = LI.BlendStores(materialsList, materialSuppliesList,out string BindingMat,out double TotalAvailable);
@@ -620,71 +623,11 @@ namespace Superthene
                 count += 1;
             }
         }
-        //handles creation of machines / regester of new machines
-        public static void CreateNewMachine()
-        {
-            Console.WriteLine("Please enter a description of the machine then press enter.");
-            Machine tempObj = new Machine(machineList, Console.ReadLine());
-            machineList.Add(tempObj);
-
-            Console.WriteLine($"successfully added machine #{machineList.Count - 1}");
-            Console.ReadKey();
-        }
-        //denotes the sale of a product
-        public static void SellProduct()
-        {
-            int PointerTop;
-            Console.Clear();
-            Console.WriteLine("=====================================================================================================");
-
-            foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate))
-            {
-                Console.WriteLine($"Product ID :{obj.ProductID}  \n\tBlend: {blendList[obj.BlendID].Name} \n\tDate of manufacture: {obj.ManufactureDate} \n\tLast recorded weight: {obj.weight}");
-            }
-
-            Console.WriteLine("=====================================================================================================");
-
-            int ProductID;
-            Console.WriteLine("\n Please enter the Product ID number that you are updating");
-            while (!int.TryParse(Console.ReadLine(), out ProductID) || ProductID < 0 || ProductID > productList.Count)
-            {
-                PointerTop = Console.CursorTop;
-
-                Console.SetCursorPosition(0, PointerTop - 2);
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, (PointerTop - 1));
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, PointerTop - 2);
-
-                Console.WriteLine("Please enter a valid number that represents a product ID");
-            }
-
-            Console.WriteLine("Product status successfully updated!");
-            Console.ReadKey();
-        }
-
-        // Print a boxed title at the top of each menu screen
-        private static void PrintBoxedTitle(string title)
-        {
-            int width = title.Length + 4;
-            string top = "╔" + new string('═', width - 2) + "╗";
-            string mid = $"║ {title} ║";
-            string bot = "╚" + new string('═', width - 2) + "╝";
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(top);
-            Console.WriteLine(mid);
-            Console.WriteLine(bot);
-            Console.ResetColor();
-        }
 
         // Main entry point: runs the main application loop and handles menu navigation.
         static void Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\r\n▒█▀▀▀█ ▒█░▒█ ▒█▀▀█ ▒█▀▀▀ ▒█▀▀█ ▀▀█▀▀ ▒█░▒█ ▒█▀▀▀ ▒█▄░▒█ ▒█▀▀▀ \r\n░▀▀▀▄▄ ▒█░▒█ ▒█▄▄█ ▒█▀▀▀ ▒█▄▄▀ ░▒█░░ ▒█▀▀█ ▒█▀▀▀ ▒█▒█▒█ ▒█▀▀▀ \r\n▒█▄▄▄█ ░▀▄▄▀ ▒█░░░ ▒█▄▄▄ ▒█░▒█ ░▒█░░ ▒█░▒█ ▒█▄▄▄ ▒█░░▀█ ▒█▄▄▄");
-            Console.ResetColor();
-            Console.WriteLine("\n\t\tPress any key to continue...");
-            Console.ReadKey();
+            UIManager.DisplayTitle();
             
             Thread alertsThread = new Thread(ThreadErrorAlerts);
             alertsThread.Start();
@@ -717,9 +660,6 @@ namespace Superthene
                                     Console.ReadKey();
                                     break;
                                 case 7:
-                                    CreateNewMachine();
-                                    break;
-                                case 8:
                                     userInput = MaterialmanagementMenuInOptions() + 1;
                                     break;
                                 default:
@@ -742,9 +682,6 @@ namespace Superthene
                                     DisplayProducts();
                                     break;
                                 case 4:
-                                    SellProduct();
-                                    break;
-                                case 5:
                                     userInput = ProductionManagementInOptions() + 1;
                                     break;
                                 default :
@@ -782,9 +719,9 @@ namespace Superthene
                         if (tempListProducts.Count > 0)
                         {
                             double averageRatio = 1.1 * tempListProducts.Average(p => blendList[p.BlendID].MaterialCompositionPercent(obj.MaterialName));
-                            Double ThreashHoldValue = averageRatio * tempListProducts.Average(p => p.InitialWeight) / 100;
+                            Double ThreashOldValue = averageRatio * tempListProducts.Average(p => p.InitialWeight) / 100;
 
-                            if (utils.MaterialSupply(obj.GetSupplyIDs(), materialSuppliesList) < ThreashHoldValue)
+                            if (utils.MaterialSupply(obj.GetSupplyIDs(), materialSuppliesList) < ThreashOldValue)
                             {
                                 //run event that informs the user that they should order more material of the selected type
                                 // if they do not order new material add it to the list of notified materials as to not repeatedly order new material 

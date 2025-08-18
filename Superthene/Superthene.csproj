@@ -64,6 +64,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UIManager.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="WeightLog.cs" />
   </ItemGroup>
