@@ -127,7 +127,7 @@ namespace Superthene
         public static int ProductionManagementInOptions()
         {
             int output = -1;
-            foreach (var options in Enum.GetValues(typeof(MainMenu)))
+            foreach (var options in Enum.GetValues(typeof(ProductionTrackingMenu)))
             {
                 output = (int)options;
             }
