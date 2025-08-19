@@ -36,6 +36,7 @@ namespace Superthene
             Create_new_product =1,
             Create_weight_log_,
             Product_details___,
+            Sell_product______,
             Exit______________
         }
         enum MaterialManagementMenu
@@ -668,6 +669,39 @@ namespace Superthene
             Console.WriteLine("New machine added. pless any key to continue");
             Console.ReadKey();
         }
+        //denotes the sale of a product
+        public static void SellProduct()
+        {
+            int PointerTop;
+            Console.Clear();
+            Console.WriteLine("=====================================================================================================");
+
+            foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate))
+            {
+                Console.WriteLine($"Product ID :{obj.ProductID}  \n\tBlend: {blendList[obj.BlendID].Name} \n\tDate of manufacture: {obj.ManufactureDate} \n\tLast recorded weight: {obj.weight}");
+            }
+
+            Console.WriteLine("=====================================================================================================");
+
+            int ProductID;
+            Console.WriteLine("\n Please enter the Product ID number that you are updating");
+            while (!int.TryParse(Console.ReadLine(), out ProductID) || ProductID < 0 || ProductID > productList.Count)
+            {
+                PointerTop = Console.CursorTop;
+
+                Console.SetCursorPosition(0, PointerTop - 2);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, (PointerTop - 1));
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, PointerTop - 2);
+
+                Console.WriteLine("Please enter a valid number that represents a product ID");
+            }
+
+            Console.WriteLine("Product status successfully updated!");
+            Console.ReadKey();
+        }
+
 
         // Main entry point: runs the main application loop and handles menu navigation.
         static void Main(string[] args)
@@ -730,6 +764,9 @@ namespace Superthene
                                     DisplayProducts();
                                     break;
                                 case 4:
+                                    SellProduct();
+                                    break;
+                                case 5:
                                     userInput = ProductionManagementInOptions() + 1;
                                     break;
                                 default :
