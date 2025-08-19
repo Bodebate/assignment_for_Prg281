@@ -669,39 +669,89 @@ namespace Superthene
             Console.WriteLine("New machine added. pless any key to continue");
             Console.ReadKey();
         }
-        //denotes the sale of a product
-        public static void SellProduct()
-        {
-            int PointerTop;
-            Console.Clear();
-            Console.WriteLine("=====================================================================================================");
+        
+        public static void FormatException()
+    {
+     throw new CustomException("Invalid input. Please enter a valid numeric Product ID.");
+     }
 
-            foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate))
-            {
-                Console.WriteLine($"Product ID :{obj.ProductID}  \n\tBlend: {blendList[obj.BlendID].Name} \n\tDate of manufacture: {obj.ManufactureDate} \n\tLast recorded weight: {obj.weight}");
-            }
+ public static void ArgumentException()
+ {
+     throw new CustomException("The Product ID does not exist or the product is already sold.");
+ }
+//denotes the sale of a product
+ public static void SellProduct()
+ {
+     Console.Clear();
+     Console.WriteLine("=====================================================================================================");
 
-            Console.WriteLine("=====================================================================================================");
+     // Show only unsold products, ordered by date
+     foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate))
+     {
+         Console.WriteLine($"Product ID : {obj.ProductID}" +
+                           $"\n\tBlend: {blendList[obj.BlendID].Name}" +
+                           $"\n\tDate of manufacture: {obj.ManufactureDate}" +
+                           $"\n\tLast recorded weight: {obj.weight}");
+     }
 
-            int ProductID;
-            Console.WriteLine("\n Please enter the Product ID number that you are updating");
-            while (!int.TryParse(Console.ReadLine(), out ProductID) || ProductID < 0 || ProductID > productList.Count)
-            {
-                PointerTop = Console.CursorTop;
+     Console.WriteLine("=====================================================================================================");
 
-                Console.SetCursorPosition(0, PointerTop - 2);
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, (PointerTop - 1));
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, PointerTop - 2);
+     try
+     {
+         int PointerTop;
+         int ProductID;
+         Console.WriteLine("\n Please enter the Product ID number that you are updating");
+         while (!int.TryParse(Console.ReadLine(), out ProductID) || ProductID < 0 || ProductID > productList.Count)
+         {
+             PointerTop = Console.CursorTop;
 
-                Console.WriteLine("Please enter a valid number that represents a product ID");
-            }
+             Console.SetCursorPosition(0, PointerTop - 2);
+             Console.Write(new string(' ', Console.WindowWidth));
+             Console.SetCursorPosition(0, (PointerTop - 1));
+             Console.Write(new string(' ', Console.WindowWidth));
+             Console.SetCursorPosition(0, PointerTop - 2);
 
-            Console.WriteLine("Product status successfully updated!");
-            Console.ReadKey();
-        }
+             Console.WriteLine("Please enter a valid number that represents a product ID");
+         }
+        
+         // Read and parse product ID
+         if (!int.TryParse(Console.ReadLine(), out ProductID))
+         {
+             FormatException();
+         }
 
+         // Validate if ProductID exists in the product list
+         Product selectedProduct = productList.FirstOrDefault(p => p.ProductID == ProductID && !p.Sold);
+
+         if (selectedProduct == null)
+         {
+             ArgumentException();
+         }
+
+         // Update the product status
+         selectedProduct.Sold = true;
+
+         Console.WriteLine("Product status successfully updated!");
+     }
+     catch (FormatException ex)
+     {
+         Console.WriteLine($"Input Error: {ex.Message}");
+     }
+     catch (ArgumentException ex)
+     {
+         Console.WriteLine($"Validation Error: {ex.Message}");
+     }
+     catch (Exception ex)
+     {
+         // Catch any unexpected error
+         Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+     }
+     finally
+     {
+         Console.WriteLine("\nPress any key to return...");
+         Console.ReadKey();
+     }
+ }
 
         // Main entry point: runs the main application loop and handles menu navigation.
         static void Main(string[] args)
