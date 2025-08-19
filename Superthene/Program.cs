@@ -681,7 +681,7 @@ namespace Superthene
             Console.WriteLine("Please input the description of the machine then press 'Enter' to continue");
             Machine tempObj = new Machine(machineList,Console.ReadLine());
             machineList.Add(tempObj);
-            Console.WriteLine("New machine added. pless any key to continue");
+            Console.WriteLine("New machine added. press any key to continue");
             Console.ReadKey();
         }
         
