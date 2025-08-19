@@ -46,6 +46,7 @@ namespace Superthene
             Log_materials_used__,
             Materials_Stored____,
             Blends_Details______,
+            Create_New_Machine__,
             Exit________________
         }
 
@@ -369,13 +370,16 @@ namespace Superthene
                 Console.WriteLine("Please enter a valid number that represents a product ID");
             }
 
-            PointerTop = Console.CursorTop;
+            Console.Clear();
+            Console.WriteLine("=====================================================================================================");
 
-            Console.SetCursorPosition(0, PointerTop - 2);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, (PointerTop - 1));
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, PointerTop - 2);
+            foreach (Machine obj in machineList)
+            {
+                Console.WriteLine($"{obj.MachineID}: {obj.MachineDetails}\n");
+            }
+
+            Console.WriteLine("=====================================================================================================");
+
 
             int MachineID;
             Console.WriteLine("\n Please enter the machine ID number of the machine used");
@@ -430,8 +434,14 @@ namespace Superthene
 
         // Handles the creation of a new blend.
         public static void CreateNewBlend()
-        {
+        {   
+            Console.Clear();
             UIManager.ClearAndShowTitle("Create New Blend");
+            foreach (Material obj in materialsList)
+            {
+                obj.ToString(materialSuppliesList);
+            }
+            Console.WriteLine("=======================================================");
             Console.WriteLine("Please enter the name of the blend:");
             string name = Console.ReadLine();
             bool exists = false;
@@ -463,8 +473,13 @@ namespace Superthene
         }
         // Handles the creation of a new material.
         public static void CreateNewMaterial()
-        {
+        {   Console.Clear();
             UIManager.ClearAndShowTitle("Create New Material");
+            foreach (Material obj in materialsList)
+            {
+                obj.ToString(materialSuppliesList);
+            }
+            Console.WriteLine("=======================================================");
             string name;
             bool exists = false;
             Console.WriteLine("Please enter the name of the material ");
@@ -495,7 +510,13 @@ namespace Superthene
         // Handles the addition of a new material supply.
         public static void AddNewMaterialSupply()
         {
+            Console.Clear();
             UIManager.ClearAndShowTitle("Add New Material Supply");
+            foreach (Material obj in materialsList)
+            {
+                obj.ToString(materialSuppliesList);
+            }
+            Console.WriteLine("=======================================================");
             double value;
             double quantity;
             Console.WriteLine("Please enter the name of the material you've purchased:");
@@ -534,6 +555,7 @@ namespace Superthene
         public static void LogMaterialUsage()
         { 
             UIManager.ClearAndShowTitle("Log Material Usage");
+
             int materialNumber = -1;
             int count = 1;
             foreach (var LI in materialsList)
@@ -602,13 +624,14 @@ namespace Superthene
         // Displays all materials and their stock/cost details.
         public static void MaterialsData()
         {
+            Console.Clear();
             UIManager.ClearAndShowTitle("Materials Data");
-            int count = 1;
             foreach (var LI in materialsList)
             {
-                Console.WriteLine(count + ": " + LI.MaterialName + "\n\t\t " + utils.MaterialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes \n\t\t R" + utils.MaterialCostPerTonne(LI.GetSupplyIDs(), materialSuppliesList)+" per tonne");
-                count++;
+                LI.ToString(materialSuppliesList);
             }
+            Console.WriteLine("================================================");
+            Console.WriteLine("Press any key to continue");
             Console.ReadKey();
         }
         // Displays all blends and their details.
@@ -622,6 +645,28 @@ namespace Superthene
                 Console.WriteLine($"{count}:  {LI.Name}\n\tTotal Produceable: {TotalAvailable} tonnes\n\tLimiting Material: {BindingMat}\n\t Price Per Tonne: R{LI.PricePerTonne(materialsList,materialSuppliesList)}");
                 count += 1;
             }
+        }
+        // enables the user to create a new machine object
+        public static void CreateMachine()
+        {
+            Console.Clear();
+
+            UIManager.ClearAndShowTitle("Machine Management");
+            Console.WriteLine("=====================================================================================================");
+
+            foreach (Machine obj in machineList)
+            {
+                Console.WriteLine($"{obj.MachineID}: {obj.MachineDetails}\n");
+            }
+
+            Console.WriteLine("=====================================================================================================");
+
+
+            Console.WriteLine("Please input the description of the machine then press 'Enter' to continue");
+            Machine tempObj = new Machine(machineList,Console.ReadLine());
+            machineList.Add(tempObj);
+            Console.WriteLine("New machine added. pless any key to continue");
+            Console.ReadKey();
         }
 
         // Main entry point: runs the main application loop and handles menu navigation.
@@ -660,6 +705,9 @@ namespace Superthene
                                     Console.ReadKey();
                                     break;
                                 case 7:
+                                    CreateMachine();
+                                    break;
+                                case 8:
                                     userInput = MaterialmanagementMenuInOptions() + 1;
                                     break;
                                 default:

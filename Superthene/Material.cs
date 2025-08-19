@@ -33,5 +33,10 @@ namespace Superthene
         {
             Console.WriteLine($"{_materialName.ToUpper()}\t Current stock level: {MaterialSupply(_supplyIDs, MaterialSupplyList)} tonnes");
         }
+        // to string function
+        public void ToString(IList<MaterialSupply> MaterialSupplyList)
+        {
+            Console.WriteLine($"{_materialID} : {_materialName} ({MaterialSupply(_supplyIDs, MaterialSupplyList)} tonnes)");
+        }
     }
 }
