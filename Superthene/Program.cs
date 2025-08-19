@@ -265,158 +265,164 @@ namespace Superthene
         // Handles the creation of a new product, including blend selection and material deduction.
         public static void CreateNewProduct()
         {
-            string userInput;
-            double initialWeight = -1;
-            int blendID = -1;
-
-            Console.Clear();
-            BlendsData();
-            Console.WriteLine("============================================");
-            while (blendID < 0 || blendID > blendList.Count)
+            if (blendList.Count > 0)
             {
-                Console.WriteLine("Please enter the name of the blend you are using for this product");
-                userInput = Console.ReadLine();
-                if (!int.TryParse(userInput, out blendID))
-                {
-                    blendID = -1;
+                string userInput;
+                double initialWeight = -1;
+                int blendID = -1;
 
-                    if (utils.BlendInList(blendList, userInput))
+                Console.Clear();
+                BlendsData();
+                Console.WriteLine("============================================");
+                while (blendID < 0 || blendID > blendList.Count)
+                {
+                    Console.WriteLine("Please enter the name of the blend you are using for this product");
+                    userInput = Console.ReadLine();
+                    if (!int.TryParse(userInput, out blendID))
                     {
-                        blendID = utils.BlendIndex(blendList, userInput);
+                        blendID = -1;
 
-                        Console.WriteLine("1,5:" + utils.BlendInList(blendList, userInput));
-                        Console.WriteLine("2:" + blendID);
-                    }
-                }
-                else
-                {
-                    blendID += -1;
-                }
-            }
-
-            while (initialWeight == -1)
-            {
-                Console.WriteLine("Please enter the initial weight of the product in tonnes (0,00):");
-                userInput = Console.ReadLine();
-                if (double.TryParse(userInput, out initialWeight))
-                {
-                    blendList[blendID].BlendStores(materialsList, materialSuppliesList, out string sTemp, out double dTemp);
-                    if (initialWeight > dTemp)
-                    {
-                        initialWeight = -1;
-                        Console.WriteLine("Not enough material in stock");
-                    }
-                }
-
-            }
-
-            foreach (int MatID in blendList[blendID].MaterialIDs(materialsList))
-            {
-                double quantity = blendList[blendID].TotalMatUsed(materialsList, materialSuppliesList, initialWeight, materialsList[MatID].MaterialName);
-                Product tempObj = new Product(blendID, productList, initialWeight, blendList[blendID].PricePerTonne(materialsList, materialSuppliesList));
-                productList.Add(tempObj);
-        
-                IList<int> Supplies = materialsList[(utils.MaterialIndex(materialsList, materialsList[MatID].MaterialName))].GetSupplyIDs();
-
-                if (utils.MaterialSupply(Supplies, materialSuppliesList) >= quantity)
-                {
-                    foreach (int supplyID in Supplies)
-                    {
-                        if (materialSuppliesList[supplyID - 1].Stock > 0)
+                        if (utils.BlendInList(blendList, userInput))
                         {
-                            double stock = materialSuppliesList[supplyID - 1].Stock;
-                            if (stock > quantity)
+                            blendID = utils.BlendIndex(blendList, userInput);
+
+                            Console.WriteLine("1,5:" + utils.BlendInList(blendList, userInput));
+                            Console.WriteLine("2:" + blendID);
+                        }
+                    }
+                    else
+                    {
+                        blendID += -1;
+                    }
+                }
+
+                while (initialWeight == -1)
+                {
+                    Console.WriteLine("Please enter the initial weight of the product in tonnes (0,00):");
+                    userInput = Console.ReadLine();
+                    if (double.TryParse(userInput, out initialWeight))
+                    {
+                        blendList[blendID].BlendStores(materialsList, materialSuppliesList, out string sTemp, out double dTemp);
+                        if (initialWeight > dTemp)
+                        {
+                            initialWeight = -1;
+                            Console.WriteLine("Not enough material in stock");
+                        }
+                    }
+
+                }
+
+                foreach (int MatID in blendList[blendID].MaterialIDs(materialsList))
+                {
+                    double quantity = blendList[blendID].TotalMatUsed(materialsList, materialSuppliesList, initialWeight, materialsList[MatID].MaterialName);
+                    Product tempObj = new Product(blendID, productList, initialWeight, blendList[blendID].PricePerTonne(materialsList, materialSuppliesList));
+                    productList.Add(tempObj);
+
+                    IList<int> Supplies = materialsList[(utils.MaterialIndex(materialsList, materialsList[MatID].MaterialName))].GetSupplyIDs();
+
+                    if (utils.MaterialSupply(Supplies, materialSuppliesList) >= quantity)
+                    {
+                        foreach (int supplyID in Supplies)
+                        {
+                            if (materialSuppliesList[supplyID - 1].Stock > 0)
                             {
-                                materialSuppliesList[supplyID - 1].UseMaterial(quantity);
-                                quantity = 0;
-                                break;
-                            }
-                            else
-                            {
-                                materialSuppliesList[supplyID - 1].UseMaterial(stock);
-                                quantity -= stock;
+                                double stock = materialSuppliesList[supplyID - 1].Stock;
+                                if (stock > quantity)
+                                {
+                                    materialSuppliesList[supplyID - 1].UseMaterial(quantity);
+                                    quantity = 0;
+                                    break;
+                                }
+                                else
+                                {
+                                    materialSuppliesList[supplyID - 1].UseMaterial(stock);
+                                    quantity -= stock;
+                                }
                             }
                         }
                     }
                 }
-            }
 
+            }
         }
         // Handles the creation of a new weight log for a product.
         public static void CreateWeightLog()
         {
-            int PointerTop;
-           Console.Clear();
-           Console.WriteLine("=====================================================================================================");
-
-            foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p=>p.ManufactureDate))
+            if (productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate).Count() > 0)
             {
-                Console.WriteLine($"Product ID :{obj.ProductID}  \n\tBlend: {blendList[obj.BlendID].Name} \n\tDate of manufacture: {obj.ManufactureDate} \n\tLast recorded weight: {obj.weight}");
+                int PointerTop;
+                Console.Clear();
+                Console.WriteLine("=====================================================================================================");
+
+                foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate))
+                {
+                    Console.WriteLine($"Product ID :{obj.ProductID}  \n\tBlend: {blendList[obj.BlendID].Name} \n\tDate of manufacture: {obj.ManufactureDate} \n\tLast recorded weight: {obj.weight}");
+                }
+
+                Console.WriteLine("=====================================================================================================");
+
+                int ProductID;
+                Console.WriteLine("\n Please enter the Product ID number that you are updating");
+                while (!int.TryParse(Console.ReadLine(), out ProductID) || ProductID < 0 || ProductID > productList.Count)
+                {
+                    PointerTop = Console.CursorTop;
+
+                    Console.SetCursorPosition(0, PointerTop - 2);
+                    Console.Write(new string(' ', Console.WindowWidth));
+                    Console.SetCursorPosition(0, (PointerTop - 1));
+                    Console.Write(new string(' ', Console.WindowWidth));
+                    Console.SetCursorPosition(0, PointerTop - 2);
+
+                    Console.WriteLine("Please enter a valid number that represents a product ID");
+                }
+
+                Console.Clear();
+                Console.WriteLine("=====================================================================================================");
+
+                foreach (Machine obj in machineList)
+                {
+                    Console.WriteLine($"{obj.MachineID}: {obj.MachineDetails}\n");
+                }
+
+                Console.WriteLine("=====================================================================================================");
+
+
+                int MachineID;
+                Console.WriteLine("\n Please enter the machine ID number of the machine used");
+                while (!int.TryParse(Console.ReadLine(), out MachineID) || MachineID < 0 || MachineID > machineList.Count - 1)
+                {
+                    PointerTop = Console.CursorTop;
+
+                    Console.SetCursorPosition(0, PointerTop - 2);
+                    Console.Write(new string(' ', Console.WindowWidth));
+                    Console.SetCursorPosition(0, (PointerTop - 1));
+                    Console.Write(new string(' ', Console.WindowWidth));
+                    Console.SetCursorPosition(0, PointerTop - 2);
+
+                    Console.WriteLine("Please enter a valid number that represents a machine ID");
+                }
+
+                double Weight;
+                Console.WriteLine("\n Please enter the Product's weight in tonnes");
+                while (!Double.TryParse(Console.ReadLine(), out Weight) || Weight < 0)
+                {
+                    PointerTop = Console.CursorTop;
+
+                    Console.SetCursorPosition(0, PointerTop - 2);
+                    Console.Write(new string(' ', Console.WindowWidth));
+                    Console.SetCursorPosition(0, (PointerTop - 1));
+                    Console.Write(new string(' ', Console.WindowWidth));
+                    Console.SetCursorPosition(0, PointerTop - 2);
+
+                    Console.WriteLine("Please enter a valid weight in the format '00,00'");
+                }
+
+                productList[ProductID].UpdateWeight(Weight);
+                WeightLog tempObj = new WeightLog(ProductID, Weight, MachineID, weightLogs);
+                weightLogs.Add(tempObj);
+
+                Console.WriteLine($"New weight of product {ProductID} has been logged at {Weight} Tonnes");
             }
-
-            Console.WriteLine("=====================================================================================================");
-
-            int ProductID;
-            Console.WriteLine("\n Please enter the Product ID number that you are updating");
-            while(!int.TryParse(Console.ReadLine(),out ProductID) || ProductID < 0 || ProductID > productList.Count)
-            {
-                PointerTop = Console.CursorTop;
-
-                Console.SetCursorPosition(0, PointerTop - 2);
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, (PointerTop - 1));
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, PointerTop - 2);
-
-                Console.WriteLine("Please enter a valid number that represents a product ID");
-            }
-
-            Console.Clear();
-            Console.WriteLine("=====================================================================================================");
-
-            foreach (Machine obj in machineList)
-            {
-                Console.WriteLine($"{obj.MachineID}: {obj.MachineDetails}\n");
-            }
-
-            Console.WriteLine("=====================================================================================================");
-
-
-            int MachineID;
-            Console.WriteLine("\n Please enter the machine ID number of the machine used");
-            while (!int.TryParse(Console.ReadLine(), out MachineID) || MachineID < 0 || MachineID > machineList.Count-1)
-            {
-                PointerTop = Console.CursorTop;
-
-                Console.SetCursorPosition(0, PointerTop - 2);
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, (PointerTop - 1));
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, PointerTop - 2);
-
-                Console.WriteLine("Please enter a valid number that represents a machine ID");
-            }
-
-            double Weight;
-            Console.WriteLine("\n Please enter the Product's weight in tonnes");
-            while (!Double.TryParse(Console.ReadLine(), out Weight) || Weight < 0 )
-            {
-                PointerTop = Console.CursorTop;
-
-                Console.SetCursorPosition(0, PointerTop - 2);
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, (PointerTop - 1));
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, PointerTop - 2);
-
-                Console.WriteLine("Please enter a valid weight in the format '00,00'");
-            }
-
-            productList[ProductID].UpdateWeight(Weight);
-            WeightLog tempObj = new WeightLog(ProductID,Weight,MachineID,weightLogs);
-            weightLogs.Add(tempObj);
-
-            Console.WriteLine($"New weight of product {ProductID} has been logged at {Weight} Tonnes");
         }
         // Displays all products and their details.
         public static void DisplayProducts()
@@ -426,7 +432,7 @@ namespace Superthene
 
             foreach (Product obj in productList.OrderBy(p => p.ManufactureDate))
             {
-                Console.WriteLine($"Product ID :{obj.ProductID} \n\tBlend: {blendList[obj.BlendID].Name} \n\tDate of manufacture: {obj.ManufactureDate} \n\tLast recorded weight: {obj.weight}");
+                Console.WriteLine($"Product ID :{obj.ProductID} \n\tBlend: {blendList[obj.BlendID].Name} \n\tDate of manufacture: {obj.ManufactureDate} \n\tLast recorded weight: {obj.weight}\n\tSold: {obj.Sold}");
             }
 
             Console.WriteLine("=====================================================================================================");
@@ -435,42 +441,45 @@ namespace Superthene
 
         // Handles the creation of a new blend.
         public static void CreateNewBlend()
-        {   
-            Console.Clear();
-            UIManager.ClearAndShowTitle("Create New Blend");
-            foreach (Material obj in materialsList)
+        {
+            if (materialsList.Count > 0)
             {
-                obj.ToString(materialSuppliesList);
-            }
-            Console.WriteLine("=======================================================");
-            Console.WriteLine("Please enter the name of the blend:");
-            string name = Console.ReadLine();
-            bool exists = false;
-
-            foreach (var obj in blendList)
-            {
-                if (obj.Name == name)
+                Console.Clear();
+                UIManager.ClearAndShowTitle("Create New Blend");
+                foreach (Material obj in materialsList)
                 {
-                    exists = true;
-                    break;
+                    obj.ToString(materialSuppliesList);
                 }
-            }
+                Console.WriteLine("=======================================================");
+                Console.WriteLine("Please enter the name of the blend:");
+                string name = Console.ReadLine();
+                bool exists = false;
 
-            Console.WriteLine();
+                foreach (var obj in blendList)
+                {
+                    if (obj.Name == name)
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
 
-            if (!exists)
-            {
-                Blend tempobj = new Blend(name, blendList);
-                tempobj.DetermineBlend(materialsList);
-                blendList.Add(tempobj);
+                Console.WriteLine();
 
-                Console.WriteLine($"The blend '{name}' has been added successfully");
+                if (!exists)
+                {
+                    Blend tempobj = new Blend(name, blendList);
+                    tempobj.DetermineBlend(materialsList);
+                    blendList.Add(tempobj);
+
+                    Console.WriteLine($"The blend '{name}' has been added successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Blend already exists");
+                }
+                Console.ReadKey();
             }
-            else
-            {
-                Console.WriteLine("Blend already exists");
-            }
-            Console.ReadKey();
         }
         // Handles the creation of a new material.
         public static void CreateNewMaterial()
@@ -511,116 +520,122 @@ namespace Superthene
         // Handles the addition of a new material supply.
         public static void AddNewMaterialSupply()
         {
-            Console.Clear();
-            UIManager.ClearAndShowTitle("Add New Material Supply");
-            foreach (Material obj in materialsList)
+            if (materialsList.Count > 0)
             {
-                obj.ToString(materialSuppliesList);
-            }
-            Console.WriteLine("=======================================================");
-            double value;
-            double quantity;
-            Console.WriteLine("Please enter the name of the material you've purchased:");
-            string name = Console.ReadLine();
-            while (!utils.MaterialInList(materialsList,name))
-            { 
-                Console.WriteLine("Please enter a valid name for the material you've purchased:");
-                name = Console.ReadLine();
-            }
+                Console.Clear();
+                UIManager.ClearAndShowTitle("Add New Material Supply");
+                foreach (Material obj in materialsList)
+                {
+                    obj.ToString(materialSuppliesList);
+                }
+                Console.WriteLine("=======================================================");
+                double value;
+                double quantity;
+                Console.WriteLine("Please enter the name of the material you've purchased:");
+                string name = Console.ReadLine();
+                while (!utils.MaterialInList(materialsList, name))
+                {
+                    Console.WriteLine("Please enter a valid name for the material you've purchased:");
+                    name = Console.ReadLine();
+                }
 
-            Console.WriteLine("Please enter the price you paid for the materials:");
-            string userInput = Console.ReadLine().ToUpper().Replace('R', ' ');
-            while (!double.TryParse(userInput, out value))
-            {
-                Console.WriteLine("Please enter the price you paid for the materials in the format 'R00,00':");
-                userInput = Console.ReadLine().ToUpper().Replace('R', ' ');
-            }
+                Console.WriteLine("Please enter the price you paid for the materials:");
+                string userInput = Console.ReadLine().ToUpper().Replace('R', ' ');
+                while (!double.TryParse(userInput, out value))
+                {
+                    Console.WriteLine("Please enter the price you paid for the materials in the format 'R00,00':");
+                    userInput = Console.ReadLine().ToUpper().Replace('R', ' ');
+                }
 
-            Console.WriteLine("Please enter the weight in tonnes of the material you purchased:");
-            userInput = Console.ReadLine();
-            while (!double.TryParse(userInput, out quantity))
-            {
-                Console.WriteLine("Please enter the weight in tonnes of the material you purchased: in the format '00,00':");
+                Console.WriteLine("Please enter the weight in tonnes of the material you purchased:");
                 userInput = Console.ReadLine();
+                while (!double.TryParse(userInput, out quantity))
+                {
+                    Console.WriteLine("Please enter the weight in tonnes of the material you purchased: in the format '00,00':");
+                    userInput = Console.ReadLine();
+                }
+
+                MaterialSupply TempObj = new MaterialSupply(name, value, quantity, materialSuppliesList);
+                materialSuppliesList.Add(TempObj);
+                materialsList[(utils.MaterialIndex(materialsList, name))].AddSupply(materialSuppliesList.Count);
+
+
+                Console.WriteLine("Supplies successfully added");
+                Console.ReadKey();
             }
-
-            MaterialSupply TempObj = new MaterialSupply(name,value,quantity, materialSuppliesList);
-            materialSuppliesList.Add(TempObj);
-            materialsList[(utils.MaterialIndex(materialsList, name))].AddSupply(materialSuppliesList.Count);
-
-
-            Console.WriteLine("Supplies successfully added");
-            Console.ReadKey();
         }
         // Handles logging the usage of a material and updates supply levels.
         public static void LogMaterialUsage()
-        { 
-            UIManager.ClearAndShowTitle("Log Material Usage");
-
-            int materialNumber = -1;
-            int count = 1;
-            foreach (var LI in materialsList)
+        {
+            if (materialsList.Count > 0)
             {
-                Console.WriteLine(count + ":  " + LI.MaterialName + "\t" + utils.MaterialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes");
-                count++;
-            }
+                UIManager.ClearAndShowTitle("Log Material Usage");
 
-            Console.WriteLine("Enter the name of the material used:");
-            string material = Console.ReadLine();
-            while (!utils.MaterialInList(materialsList, material) && (!int.TryParse(material, out materialNumber) || materialNumber <= 0 || materialNumber > count))
-            {
-                Console.WriteLine("Please enter a valid material name:");
-                material = Console.ReadLine();
-            }
-
-            if (int.TryParse(material, out materialNumber))
-            {
-                material = materialsList[materialNumber - 1].MaterialName;
-            }
-
-            Console.WriteLine("Please enter the weight in tonnes of the material you used:");
-            string userInput = Console.ReadLine();
-            double quantity;
-            while (!double.TryParse(userInput, out quantity))
-            {
-                Console.WriteLine("Please enter the weight in tonnes of the material you used: in the format '00,00':");
-                userInput = Console.ReadLine();
-            }
-
-            IList<int> Supplies = materialsList[(utils.MaterialIndex(materialsList, material))].GetSupplyIDs();
-
-            if (utils.MaterialSupply(Supplies, materialSuppliesList) >= quantity)
-            {
-                foreach (int supplyID in Supplies)
+                int materialNumber = -1;
+                int count = 1;
+                foreach (var LI in materialsList)
                 {
-                    if (materialSuppliesList[supplyID - 1].Stock > 0)
+                    Console.WriteLine(count + ":  " + LI.MaterialName + "\t" + utils.MaterialSupply(LI.GetSupplyIDs(), materialSuppliesList) + " tonnes");
+                    count++;
+                }
+
+                Console.WriteLine("Enter the name of the material used:");
+                string material = Console.ReadLine();
+                while (!utils.MaterialInList(materialsList, material) && (!int.TryParse(material, out materialNumber) || materialNumber <= 0 || materialNumber > count))
+                {
+                    Console.WriteLine("Please enter a valid material name:");
+                    material = Console.ReadLine();
+                }
+
+                if (int.TryParse(material, out materialNumber))
+                {
+                    material = materialsList[materialNumber - 1].MaterialName;
+                }
+
+                Console.WriteLine("Please enter the weight in tonnes of the material you used:");
+                string userInput = Console.ReadLine();
+                double quantity;
+                while (!double.TryParse(userInput, out quantity))
+                {
+                    Console.WriteLine("Please enter the weight in tonnes of the material you used: in the format '00,00':");
+                    userInput = Console.ReadLine();
+                }
+
+                IList<int> Supplies = materialsList[(utils.MaterialIndex(materialsList, material))].GetSupplyIDs();
+
+                if (utils.MaterialSupply(Supplies, materialSuppliesList) >= quantity)
+                {
+                    foreach (int supplyID in Supplies)
                     {
-                        double stock = materialSuppliesList[supplyID - 1].Stock;
-                        if (stock > quantity)
+                        if (materialSuppliesList[supplyID - 1].Stock > 0)
                         {
-                            materialSuppliesList[supplyID - 1].UseMaterial(quantity);
-                            quantity = 0;
-                            break;
-                        }
-                        else
-                        {
-                            materialSuppliesList[supplyID - 1].UseMaterial(stock);
-                            quantity -= stock;
+                            double stock = materialSuppliesList[supplyID - 1].Stock;
+                            if (stock > quantity)
+                            {
+                                materialSuppliesList[supplyID - 1].UseMaterial(quantity);
+                                quantity = 0;
+                                break;
+                            }
+                            else
+                            {
+                                materialSuppliesList[supplyID - 1].UseMaterial(stock);
+                                quantity -= stock;
+                            }
                         }
                     }
                 }
-            }
-            if (quantity == 0)
-            {
-                Console.WriteLine("Supply levels updated");
-            }
-            else
-            { 
-            Console.WriteLine($"Not enough material in stock. please order at least {quantity- utils.MaterialSupply(Supplies, materialSuppliesList)} tonnes more {material}");
-            }
+                if (quantity == 0)
+                {
+                    Console.WriteLine("Supply levels updated");
+                }
+                else
+                {
+                    Console.WriteLine($"Not enough material in stock. please order at least {quantity - utils.MaterialSupply(Supplies, materialSuppliesList)} tonnes more {material}");
+                }
 
-            Console.ReadKey();
+                Console.ReadKey();
 
+            }
         }
         // Displays all materials and their stock/cost details.
         public static void MaterialsData()
@@ -675,87 +690,93 @@ namespace Superthene
      throw new CustomException("Invalid input. Please enter a valid numeric Product ID.");
      }
 
- public static void ArgumentException()
- {
-     throw new CustomException("The Product ID does not exist or the product is already sold.");
- }
+        public static void ArgumentException()
+        {
+            throw new CustomException("The Product ID does not exist or the product is already sold.");
+        }
 //denotes the sale of a product
- public static void SellProduct()
+        public static void SellProduct()
  {
-     Console.Clear();
-     Console.WriteLine("=====================================================================================================");
 
-     // Show only unsold products, ordered by date
-     foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate))
-     {
-         Console.WriteLine($"Product ID : {obj.ProductID}" +
-                           $"\n\tBlend: {blendList[obj.BlendID].Name}" +
-                           $"\n\tDate of manufacture: {obj.ManufactureDate}" +
-                           $"\n\tLast recorded weight: {obj.weight}");
-     }
+            if (productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate).Count() > 0)
+            {
 
-     Console.WriteLine("=====================================================================================================");
+                Console.Clear();
+                Console.WriteLine("=====================================================================================================");
 
-     try
-     {
-         int PointerTop;
-         int ProductID;
-         Console.WriteLine("\n Please enter the Product ID number that you are updating");
-         while (!int.TryParse(Console.ReadLine(), out ProductID) || ProductID < 0 || ProductID > productList.Count)
-         {
-             PointerTop = Console.CursorTop;
+                // Show only unsold products, ordered by date
+                foreach (Product obj in productList.Where(p => p.Sold == false).OrderBy(p => p.ManufactureDate))
+                {
+                    Console.WriteLine($"Product ID : {obj.ProductID}" +
+                                      $"\n\tBlend: {blendList[obj.BlendID].Name}" +
+                                      $"\n\tDate of manufacture: {obj.ManufactureDate}" +
+                                      $"\n\tLast recorded weight: {obj.weight}");
+                }
 
-             Console.SetCursorPosition(0, PointerTop - 2);
-             Console.Write(new string(' ', Console.WindowWidth));
-             Console.SetCursorPosition(0, (PointerTop - 1));
-             Console.Write(new string(' ', Console.WindowWidth));
-             Console.SetCursorPosition(0, PointerTop - 2);
+                Console.WriteLine("=====================================================================================================");
 
-             Console.WriteLine("Please enter a valid number that represents a product ID");
-         }
-        
-         // Read and parse product ID
-         if (!int.TryParse(Console.ReadLine(), out ProductID))
-         {
-             FormatException();
-         }
+                try
+                {
+                //    int PointerTop;
+                    int ProductID;
+                    Console.WriteLine("\n Please enter the Product ID number that you are updating");
+                    //while (!int.TryParse(Console.ReadLine(), out ProductID) || ProductID < 0 || ProductID > productList.Count)
+                    //{
+                    //    PointerTop = Console.CursorTop;
 
-         // Validate if ProductID exists in the product list
-         Product selectedProduct = productList.FirstOrDefault(p => p.ProductID == ProductID && !p.Sold);
+                    //    Console.SetCursorPosition(0, PointerTop - 2);
+                    //    Console.Write(new string(' ', Console.WindowWidth));
+                    //    Console.SetCursorPosition(0, (PointerTop - 1));
+                    //    Console.Write(new string(' ', Console.WindowWidth));
+                    //    Console.SetCursorPosition(0, PointerTop - 2);
 
-         if (selectedProduct == null)
-         {
-             ArgumentException();
-         }
+                    //    Console.WriteLine("Please enter a valid number that represents a product ID");
+                    //}
 
-         // Update the product status
-         selectedProduct.Sold = true;
+                    // Read and parse product ID
+                    if (!int.TryParse(Console.ReadLine(), out ProductID))
+                    {
+                        FormatException();
+                    }
 
-         Console.WriteLine("Product status successfully updated!");
-     }
-     catch (FormatException ex)
-     {
-         Console.WriteLine($"Input Error: {ex.Message}");
-     }
-     catch (ArgumentException ex)
-     {
-         Console.WriteLine($"Validation Error: {ex.Message}");
-     }
-     catch (Exception ex)
-     {
-         // Catch any unexpected error
-         Console.WriteLine($"An unexpected error occurred: {ex.Message}");
-     }
-     finally
-     {
-         Console.WriteLine("\nPress any key to return...");
-         Console.ReadKey();
-     }
+                    // Validate if ProductID exists in the product list
+                    Product selectedProduct = productList.FirstOrDefault(p => p.ProductID == ProductID && !p.Sold);
+
+                    if (selectedProduct == null)
+                    {
+                        ArgumentException();
+                    }
+
+                    // Update the product status
+                    selectedProduct.Sold = true;
+
+                    Console.WriteLine("Product status successfully updated!");
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine($"Input Error: {ex.Message}");
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"Validation Error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Catch any unexpected error
+                    Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                }
+                finally
+                {
+                    Console.WriteLine("\nPress any key to return...");
+                    Console.ReadKey();
+                }
+            }
  }
 
         // Main entry point: runs the main application loop and handles menu navigation.
         static void Main(string[] args)
         {
+            TestDataLoad();
             UIManager.DisplayTitle();
             
             Thread alertsThread = new Thread(ThreadErrorAlerts);
@@ -869,6 +890,58 @@ namespace Superthene
                 AlertsObject=tempAlertsObj;
                 Thread.Sleep(10000);
             }
+        }
+
+        //adds data for display and testing purposes
+        static void TestDataLoad()
+        {
+            Machine tempMachine = new Machine(machineList,"Big Rig- Extruder No: 01");
+            machineList.Add(tempMachine);
+            tempMachine = new Machine(machineList, "Small Rig- Bag Cutter No: 03");
+            machineList.Add(tempMachine);
+            tempMachine = new Machine(machineList, "Small Rig- Finisher No: 0100");
+            machineList.Add(tempMachine);
+
+            Material tempMaterial = new Material("PVC", materialsList,new List<int> { 1,2 });
+            materialsList.Add(tempMaterial);
+             tempMaterial = new Material("HTTP", materialsList, new List<int> {3,4,5});
+            materialsList.Add(tempMaterial);
+             tempMaterial = new Material("Urathaine", materialsList, new List<int> { 6, 7 });
+            materialsList.Add(tempMaterial);
+
+            string[,] tempArray = new string[1, 2] { {"PVC", "100"}};
+            Blend tempBlend = new Blend("PVC_01", blendList, tempArray);
+            blendList.Add(tempBlend);
+
+            tempArray = new string[2, 2] { { "PVC", "50" },{"HTTP","50" } };
+            tempBlend = new Blend("HTTP_01", blendList, tempArray);
+            blendList.Add(tempBlend);
+
+
+            tempArray = new string[3, 2] { { "PVC", "20" },{"HTTP","40"},{ "Urathaine","40"} };
+            tempBlend = new Blend("HouseBlend_01", blendList, tempArray);
+            blendList.Add(tempBlend);
+
+            MaterialSupply tempSupply = new MaterialSupply("PVC", 1000, 4, materialSuppliesList);
+            materialSuppliesList.Add(tempSupply);
+
+            tempSupply = new MaterialSupply("PVC", 5000, 18, materialSuppliesList);
+            materialSuppliesList.Add(tempSupply);
+
+            tempSupply = new MaterialSupply("HTTP", 1000, 2, materialSuppliesList);
+            materialSuppliesList.Add(tempSupply);
+
+            tempSupply = new MaterialSupply("HTTP", 500, 0.5, materialSuppliesList);
+            materialSuppliesList.Add(tempSupply);
+
+            tempSupply = new MaterialSupply("HTTP", 800, 4, materialSuppliesList);
+            materialSuppliesList.Add(tempSupply);
+
+            tempSupply = new MaterialSupply("Urathaine", 2000, 4, materialSuppliesList);
+            materialSuppliesList.Add(tempSupply);
+
+            tempSupply = new MaterialSupply("Urathaine", 1000, 3, materialSuppliesList);
+            materialSuppliesList.Add(tempSupply);
         }
     }
 }

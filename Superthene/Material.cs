@@ -21,6 +21,13 @@ namespace Superthene
          _materialName = Name;
          _materialID = list.Count;
         }
+        //overloaded constructor for when we have all dat needed for creation
+        public Material(string Name, IList<Material> list, List<int> supplyIds)
+        {
+            _materialName = Name;
+            _materialID = list.Count;
+            _supplyIDs = supplyIds;
+        }
         // Adds a supply ID to the material's list of supplies.
         public void AddSupply(int SupplyId)
         {

@@ -20,6 +20,13 @@ namespace Superthene
             _name = name;
             _blendCode = blendList.Count();
         }
+        //for the creation of blends when all data is available
+        public Blend(string name, IList<Blend> blendList, string[,] blendMix)
+        {
+            _name = name;
+            _blendCode = blendList.Count();
+            _blendMix = blendMix;
+        }
 
         // Prompts the user to define the blend's material composition interactively.
         public virtual void DetermineBlend(IList<Material> materialList)
