@@ -874,7 +874,7 @@ namespace Superthene
                         if (tempListProducts.Count > 0)
                         {
                             double averageRatio = 1.1 * tempListProducts.Average(p => blendList[p.BlendID].MaterialCompositionPercent(obj.MaterialName));
-                            Double ThreashOldValue = averageRatio * tempListProducts.Average(p => p.InitialWeight) / 100;
+                            double ThreashOldValue = averageRatio * tempListProducts.Average(p => p.InitialWeight) / 100;
 
                             if (utils.MaterialSupply(obj.GetSupplyIDs(), materialSuppliesList) < ThreashOldValue)
                             {
