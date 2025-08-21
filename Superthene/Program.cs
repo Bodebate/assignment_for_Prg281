@@ -69,10 +69,10 @@ namespace Superthene
             bool valid = false;
             Console.Clear();
             UIManager.ClearAndShowTitle("Main Menu");
-            foreach (string Option in Enum.GetNames(typeof(MainMenu)))
+            foreach (MainMenu Option in Enum.GetValues(typeof(MainMenu)))
             {
-                Console.WriteLine(counter++ +": " + Option.Replace('_', ' ').Replace("AND", "&"));
-               
+                //Console.WriteLine(counter++ +": " + Option.Replace('_', ' ').Replace("AND", "&"));
+                Console.WriteLine((int)Option+":  "+Option.ToString().Replace("_"," ").Replace("AND","&"));
             }
             Console.WriteLine();
 
@@ -285,9 +285,6 @@ namespace Superthene
                         if (utils.BlendInList(blendList, userInput))
                         {
                             blendID = utils.BlendIndex(blendList, userInput);
-
-                            Console.WriteLine("1,5:" + utils.BlendInList(blendList, userInput));
-                            Console.WriteLine("2:" + blendID);
                         }
                     }
                     else
@@ -637,6 +634,7 @@ namespace Superthene
 
             }
         }
+
         // Displays all materials and their stock/cost details.
         public static void MaterialsData()
         {
@@ -781,6 +779,7 @@ namespace Superthene
             
             Thread alertsThread = new Thread(ThreadErrorAlerts);
             alertsThread.Start();
+
             do
             {
                 switch(LoadMainMenu())
